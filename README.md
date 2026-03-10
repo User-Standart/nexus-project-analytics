@@ -1,4 +1,4 @@
-<img width="1300" height="240" alt="image" src="COLOQUE_A_IMAGEM_DO_HEADER_AQUI" />
+<img width="1300" height="240" src="./docs/media/banner-nexus.svg">
 
 <br />
 
