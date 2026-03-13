@@ -13,8 +13,6 @@
     <a href="#dor">DoD</a>  |  
     <a href="#cronograma-de-sprints">Cronograma de Sprints</a>  |  
     <a href="#tecnologias">Tecnologias</a> | 
-    <a href="#manual-de-instalacao">Manual de Instalação</a> | 
-    <a href="#manual-do-usuario">Manual do Usuário</a> | 
     <a href="#documentacao-api">Documentação API</a> | 
     <a href="#modelagem-de-banco-de-dados">Modelagem de Banco de Dados</a> | 
     <a href="#equipe">Equipe</a>
@@ -90,8 +88,6 @@ O backlog será definido durante a fase de **Construção do Backlog e Planejame
 - Código implementado
 - Testes realizados
 - Documentação atualizada
-- Manual de Instalação
-- Manual do Usuário
 - Documentação da API
 - Vídeos de apresentação das entregas
 
@@ -132,26 +128,6 @@ O backlog será definido durante a fase de **Construção do Backlog e Planejame
 <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" />
 
 </p>
-
-→ [Voltar ao topo](#User-Standart)
-
----
-
-<span id="manual-de-instalacao">
-
-# 📖 Manual de instalação
-
-🚧 Em construção
-
-→ [Voltar ao topo](#User-Standart)
-
----
-
-<span id="manual-do-usuario">
-
-# 📘 Manual do usuário
-
-🚧 Em construção
 
 → [Voltar ao topo](#User-Standart)
 
