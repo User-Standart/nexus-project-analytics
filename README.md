@@ -54,17 +54,150 @@ O objetivo é transformar dados dispersos em **informação estruturada e acess�
 
 ---
 
-<span id="backlog-do-produto">
+## 📋 Functional Requirements
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Functional Requirement</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>RF01</td>
+        <td>ETL & Data Quality, DW</td>
+        <td>The system must collect and consolidate data from different sources such as spreadsheets and CSV files, standardizing project IDs and organizing the information into a unified database.</td>
+    </tr>
+    <tr>
+        <td>RF02</td>
+        <td>Data validation and cleaning</td>
+        <td>The system must identify inconsistencies in the imported data and perform validation and correction to ensure data quality before visualization.</td>
+    </tr>
+    <tr>
+        <td>RF03</td>
+        <td>Project cost visualization</td>
+        <td>The system must display the total cost of each project through dashboards, allowing managers to identify projects consuming more resources than expected.</td>
+    </tr>
+    <tr>
+        <td>RF04</td>
+        <td>Delay risk indicator</td>
+        <td>The system must display projects with a risk of delay using visual indicators and dashboards to help managers make faster decisions.</td>
+    </tr>
+    <tr>
+        <td>RF05</td>
+        <td>Cost vs execution dashboard</td>
+        <td>The system must present a comparative dashboard relating project cost and execution progress to evaluate project performance.</td>
+    </tr>
+    <tr>
+        <td>RF06</td>
+        <td>Investment by program</td>
+        <td>The system must display the total investment grouped by program, enabling strategic analysis of resource distribution.</td>
+    </tr>
+    <tr>
+        <td>RF07</td>
+        <td>Material consumption by project</td>
+        <td>The system must display the consumption of materials by project in graphs or tables to understand how resources are being used.</td>
+    </tr>
+    <tr>
+        <td>RF08</td>
+        <td>Time spent by task and project</td>
+        <td>The system must display the time spent on each task and project to allow productivity and effort analysis.</td>
+    </tr>
+    <tr>
+        <td>RF09</td>
+        <td>Analytical filters</td>
+        <td>The system must allow filtering dashboards by program, project, task, material, order and time period to facilitate different levels of analysis.</td>
+    </tr>
+    <tr>
+        <td>RF10</td>
+        <td>Quick search</td>
+        <td>The system must allow quick search for projects, materials and suppliers to locate specific information easily.</td>
+    </tr>
+    <tr>
+        <td>RF11</td>
+        <td>Data export</td>
+        <td>The system must allow exporting dashboards and reports in formats such as CSV and PDF for sharing results in meetings and presentations.</td>
+    </tr>
+    <tr>
+        <td>RF12</td>
+        <td>Data visualization dashboards</td>
+        <td>The system must provide analytical dashboards with graphs and tables to visualize consolidated project data.</td>
+    </tr>
+</table>
 
-# 📋 Backlog do Produto
+## 📋 Non-Functional Requirements
 
-🚧 **Em construção**
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Non-Functional Requirements</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>RNF01</td>
+        <td>API Documentation</td>
+        <td>The system must provide clear and detailed documentation for the API endpoints used to access consolidated data.</td>
+    </tr>
+    <tr>
+        <td>RNF02</td>
+        <td>Responsiveness</td>
+        <td>The dashboards and visualization panels must be responsive and accessible from different devices such as desktop and mobile.</td>
+    </tr>
+    <tr>
+        <td>RNF03</td>
+        <td>User Manual</td>
+        <td>The system must have a manual to guide users on how to use the system, including step-by-step tutorials for key features, usage tips and common troubleshooting.</td>
+    </tr>
+    <tr>
+        <td>RNF04</td>
+        <td>Data Quality</td>
+        <td>The system must ensure data integrity and consistency through validation and treatment during the ETL process.</td>
+    </tr>
+    <tr>
+        <td>RNF05</td>
+        <td>Data Warehouse Modeling</td>
+        <td>The system must implement a structured data model (DW – Data Warehouse) to support analytical queries and dashboards efficiently.</td>
+    </tr>
+    <tr>
+        <td>RNF06</td>
+        <td>Performance</td>
+        <td>TThe system must allow fast access to analytical dashboards and queries even when handling large datasets.</td>
+    </tr>
+</table>
 
-O backlog será definido durante a fase de **Construção do Backlog e Planejamento do Produto**.
+<br>
 
-| Rank | Prioridade | User Story | Story Points | Sprint |
-|-|-|-|-|-|
-| - | - | Em definição | - | - |
+<span id="product-backlog">
+
+## 🧵 Product Backlog
+
+### 📋 Legenda dos Pacotes de Requisitos
+| Pacote                | Requisitos cobertos    |
+| ------------------    | ---------------------- |
+| *ETL & Data Quality*  | RF01, RF02             |
+| *Dashboards*          | RF03, RF04, RF05       |
+| *Analytics*           | RF06, RF07, RF08       |
+| *Filters & Search*    | RF09, RF10             |
+| *Export*              | RNF11                  |
+| *DW*                  | RNF01, RNF02           |
+| *Docs & UX*           | RNF04, RNF05           |
+
+</br> 
+
+### ✅ Tabela de Itens do Backlog
+| Rank | Pacotes de Requisitos        | User Story                                                                                                                                     | Perfil     | Prioridade | Sprint | Status     |
+|------|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|------------|------------|--------|------------|
+| 1 | ETL & Data Quality, DW | As a User, I want to gather and organize data from different systems and spreadsheets so that I can view all the information in a single place.| User    | 1          | 1      | 🔄 In Progress     |
+| 2 | Dashboards, Docs & UX  | As a User, I want to visualize the total cost of each project in order to identify which ones are consuming more resources than expected.      | User    | 1           | 1     | 🔄 In Progress     |
+| 3 | Dashboard              | As a User, I want to visualize projects at risk of delay so that I can make decisions quickly.                                                 | User    | 1          | 1      | 🔄 In Progress    |
+| 4 | Dashboards, Analytics  | As a User, I want to visualize dashboards relating project cost and execution so that I can evaluate project performance.                      | User    | 2          | 1      | 🔄 In Progress|
+| 5 | Analytics              |As a User, I want to visualize which program concentrates the highest investment so that I can support strategic decisions.                     | User    | 2          | 2      | ⏳ To Do    |
+| 6 | Analytics              | As a User, I want to visualize material consumption per project so that I can understand where resources are being used.                       | User    | 2          | 2      | ⏳ To Do   |
+| 7 | Analytics              | As a User, I want to visualize time spent per task and project so that I can evaluate effort and productivity.                                 | User    | 2          | 2      | ⏳ To Do  |
+| 8 | Filters & Search       | As a User, I want to filter dashboards by program, project, task, material, order and period so that I can perform analyses at different levels.| User    | 2          | 2      | ⏳ To Do   |
+| 9 | Filters & Search       |As a User, I want to quickly search for projects, materials and suppliers so that I can locate specific information easily.                     | User    | 3          | 2      | ⏳ To Do   |
+| 10 | Export, Docs & UX     | As a User, I want to export reports and dashboards so that I can share results in meetings and presentations.                                  | User    | 3          | 3      | ⏳ To Do |
+
+
+<br>
 
 ---
 
