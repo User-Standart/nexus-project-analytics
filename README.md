@@ -8,7 +8,7 @@
 <p align="center">
     <a href="#desafio">Desafio</a>  |  
     <a href="#solucao">Solução</a>  |   
-    <a href="#backlog-do-produto">Backlog do Produto</a>  |  
+    <a href="#product-backlog">Backlog do Produto</a>  |  
     <a href="#dor">DoR</a>  |  
     <a href="#dor">DoD</a>  |  
     <a href="#cronograma-de-sprints">Cronograma de Sprints</a>  |  
