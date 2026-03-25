@@ -105,18 +105,18 @@ The goal is to transform scattered data into **structured and accessible informa
 
 ### ✅ Backlog Items Table
 
-| Rank | Requirement Packages | User Story | Role | Priority | Sprint | Status |
-|------|----------------------|------------|------|----------|--------|--------|
-| 1 | ETL & Data Quality, DW | As a User, I want to gather and organize data from different systems and spreadsheets so that I can view all information in a single place. | User | 1 | 1 | 🔄 In Progress |
-| 2 | Dashboards, Docs & UX | As a User, I want to visualize the total cost of each project to identify which ones are consuming more resources than expected. | User | 1 | 1 | 🔄 In Progress |
-| 3 | Dashboards | As a User, I want to visualize projects at risk of delay so that I can make decisions quickly. | User | 1 | 1 | 🔄 In Progress |
-| 4 | Dashboards, Analytics | As a User, I want to visualize dashboards relating project cost and execution to evaluate project performance. | User | 2 | 1 | 🔄 In Progress |
-| 5 | Analytics | As a User, I want to visualize which program concentrates the highest investment to support strategic decisions. | User | 2 | 2 | ⏳ To Do |
-| 6 | Analytics | As a User, I want to visualize material consumption per project to understand resource usage. | User | 2 | 2 | ⏳ To Do |
-| 7 | Analytics | As a User, I want to visualize time spent per task and project to evaluate effort and productivity. | User | 2 | 2 | ⏳ To Do |
-| 8 | Filters & Search | As a User, I want to filter dashboards by program, project, task, material, order, and period to perform multi-level analysis. | User | 2 | 2 | ⏳ To Do |
-| 9 | Filters & Search | As a User, I want to quickly search for projects, materials, and suppliers to find information easily. | User | 3 | 2 | ⏳ To Do |
-| 10 | Export, Docs & UX | As a User, I want to export reports and dashboards to share results in meetings and presentations. | User | 3 | 3 | ⏳ To Do |
+| Rank | Requirement Packages | User Story | Role | Priority | Sprint | Status | DoR (Definition of Ready) | DoD (Definition of Done) |
+|------|----------------------|------------|------|----------|--------|--------|---------------------------|---------------------------|
+| 1 | ETL & Data Quality, DW | As a User, I want to gather and organize data from different systems and spreadsheets so that I can view all information in a single place. | User | 1 | 1 | 🔄 In Progress | Data sources identified; data structure defined; ETL requirements documented. | Data integrated into the DW; ETL process implemented; data validated and documented. |
+| 2 | Dashboards, Docs & UX | As a User, I want to visualize the total cost of each project to identify which ones are consuming more resources than expected. | User | 1 | 1 | 🔄 In Progress | Project cost data available; dashboard layout defined; metrics specified. | Dashboard showing total cost per project implemented and validated. |
+| 3 | Dashboards | As a User, I want to visualize projects at risk of delay so that I can make decisions quickly. | User | 1 | 1 | 🔄 In Progress | Delay risk criteria defined; project timeline data available. | Dashboard highlights projects at risk; risk indicators validated. |
+| 4 | Dashboards, Analytics | As a User, I want to visualize dashboards relating project cost and execution to evaluate project performance. | User | 2 | 1 | 🔄 In Progress | Cost and execution data available; visualization requirements defined. | Dashboard relating cost and execution implemented and tested. |
+| 5 | Analytics | As a User, I want to visualize which program concentrates the highest investment to support strategic decisions. | User | 2 | 2 | ⏳ To Do | Investment data per program available; analysis requirements defined. | Visualization showing investment by program implemented and validated. |
+| 6 | Analytics | As a User, I want to visualize material consumption per project to understand resource usage. | User | 2 | 2 | ⏳ To Do | Material usage data available; project relation defined. | Dashboard displaying material consumption per project implemented. |
+| 7 | Analytics | As a User, I want to visualize time spent per task and project to evaluate effort and productivity. | User | 2 | 2 | ⏳ To Do | Task and time tracking data available; metrics defined. | Dashboard showing time spent per task and project implemented and validated. |
+| 8 | Filters & Search | As a User, I want to filter dashboards by program, project, task, material, order, and period to perform multi-level analysis. | User | 2 | 2 | ⏳ To Do | Filter fields defined; dataset prepared for filtering. | Interactive filters implemented and functioning across dashboards. |
+| 9 | Filters & Search | As a User, I want to quickly search for projects, materials, and suppliers to find information easily. | User | 3 | 2 | ⏳ To Do | Search fields defined; indexing strategy defined. | Search functionality implemented and returning correct results. |
+| 10 | Export, Docs & UX | As a User, I want to export reports and dashboards to share results in meetings and presentations. | User | 3 | 3 | ⏳ To Do | Export formats defined; data available for export. | Export feature implemented and generating correct files (PDF/Excel). |
 
 ---
 
