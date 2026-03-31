@@ -2,6 +2,8 @@
 main.py — ponto de entrada do pipeline ETL
 Executa na ordem correta: Extract → Transform (dims) → Transform (fatos) → Load
 """
+import polars as pl
+
 from extract import extrair_fontes
 from transform import (
     build_dim_tempo,
@@ -16,6 +18,7 @@ from transform import (
     build_fato_estoque_materiais,
 )
 from load import carregar_dw
+from load_db import carregar_dw_postgres
 
 
 def main():
@@ -59,26 +62,28 @@ def main():
     )
 
     # ── 4. LOAD ───────────────────────────────
-    print("[4/4] Carregando no DW...")
-    carregar_dw(
-        dimensoes={
-            "dim_tempo":       dim_tempo,
-            "dim_projeto":     dim_projeto,
-            "dim_fornecedor":  dim_fornecedor,
-            "dim_material":    dim_material,
-            "dim_responsavel": dim_responsavel,
-            "dim_tarefa":      dim_tarefa,
-            "dim_solicitacao": dim_solicitacao,
-        },
-        fatos={
-            "fato_compras":            fato_compras,
-            "fato_execucao_tarefas":   fato_execucao,
-            "fato_estoque_materiais":  fato_estoque,
-        },
-        pasta_saida="dw",
-    )
+    dimensoes = {
+        "dim_tempo":       dim_tempo,
+        "dim_projeto":     dim_projeto,
+        "dim_fornecedor":  dim_fornecedor,
+        "dim_material":    dim_material,
+        "dim_responsavel": dim_responsavel,
+        "dim_tarefa":      dim_tarefa,
+        "dim_solicitacao": dim_solicitacao,
+    }
+    fatos = {
+        "fato_compras":            fato_compras,
+        "fato_execucao_tarefas":   fato_execucao,
+        "fato_estoque_materiais":  fato_estoque,
+    }
 
-    print("\n=== ETL concluído. Arquivos salvos em /dw/ ===")
+    print("[4/5] Carregando CSVs no DW...")
+    carregar_dw(dimensoes=dimensoes, fatos=fatos, pasta_saida="dw")
+
+    print("[5/5] Carregando no PostgreSQL...")
+    carregar_dw_postgres(dimensoes=dimensoes, fatos=fatos)
+
+    print("\n=== ETL concluído ===")
 
 
 if __name__ == "__main__":
