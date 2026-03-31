@@ -27,20 +27,20 @@ CREATE TABLE dw.dim_tempo (
     semestre       INT,
     trimestre      INT,
     mes            INT,
-    nome_mes       VARCHAR(20),
+    nome_mes       VARCHAR(50),
     semana         INT,
     dia            INT,
-    dia_semana     VARCHAR(20)
+    dia_semana     VARCHAR(50)
 );
 
 CREATE TABLE dw.dim_projeto (
     sk_projeto       INT PRIMARY KEY,
     id_projeto       INT,
-    codigo_projeto   VARCHAR(20),
+    codigo_projeto   VARCHAR(50),
     nome_projeto     VARCHAR(100),
     responsavel      VARCHAR(100),
-    status           VARCHAR(20),
-    codigo_programa  VARCHAR(20),
+    status           VARCHAR(50),
+    codigo_programa  VARCHAR(50),
     nome_programa    VARCHAR(100),
     gerente_programa VARCHAR(100),
     data_inicio      DATE,
@@ -50,23 +50,23 @@ CREATE TABLE dw.dim_projeto (
 CREATE TABLE dw.dim_fornecedor (
     sk_fornecedor     INT PRIMARY KEY,
     id_fornecedor     INT,
-    codigo_fornecedor VARCHAR(20),
+    codigo_fornecedor VARCHAR(50),
     razao_social      VARCHAR(200),
     cidade            VARCHAR(100),
     estado            CHAR(2),
     categoria         VARCHAR(100),
-    status            VARCHAR(20)
+    status            VARCHAR(50)
 );
 
 CREATE TABLE dw.dim_material (
     sk_material      INT PRIMARY KEY,
     id_material      INT,
-    codigo_material  VARCHAR(20),
+    codigo_material  VARCHAR(50),
     descricao        VARCHAR(200),
     categoria        VARCHAR(100),
     fabricante       VARCHAR(100),
     custo_estimado   DECIMAL(10,2),
-    status           VARCHAR(20)
+    status           VARCHAR(50)
 );
 
 CREATE TABLE dw.dim_responsavel (
@@ -78,9 +78,9 @@ CREATE TABLE dw.dim_responsavel (
 CREATE TABLE dw.dim_tarefa (
     sk_tarefa        INT PRIMARY KEY,
     id_tarefa        INT,
-    codigo_tarefa    VARCHAR(20),
+    codigo_tarefa    VARCHAR(50),
     titulo           VARCHAR(200),
-    status           VARCHAR(20),
+    status           VARCHAR(50),
     estimativa_horas INT,
     data_inicio      DATE,
     data_fim_prev    DATE
@@ -89,11 +89,11 @@ CREATE TABLE dw.dim_tarefa (
 CREATE TABLE dw.dim_solicitacao (
     sk_solicitacao        INT PRIMARY KEY,
     id_solicitacao        INT,
-    numero_solicitacao    VARCHAR(20),
-    prioridade            VARCHAR(20),
-    status_solicitacao    VARCHAR(20),
-    numero_pedido         VARCHAR(20),
-    status_pedido         VARCHAR(20),
+    numero_solicitacao    VARCHAR(50),
+    prioridade            VARCHAR(50),
+    status_solicitacao    VARCHAR(50),
+    numero_pedido         VARCHAR(50),
+    status_pedido         VARCHAR(50),
     data_previsao_entrega DATE
 );
 

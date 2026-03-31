@@ -1,8 +1,11 @@
 import polars as pl
 
-# sk=0 é a convenção "membro desconhecido" do DW —
-# evita FK nula que quebraria análises e ferramentas de BI
 _SK_DESCONHECIDO = 0
+
+
+def _dim_lookup(dim: pl.DataFrame, sk_col: str, join_col: str) -> pl.DataFrame:
+    """Retorna só as colunas necessárias da dimensão para o join."""
+    return dim.select([sk_col, join_col])
 
 
 def build_fato_compras(
@@ -13,29 +16,24 @@ def build_fato_compras(
     dim_solicitacao: pl.DataFrame,
     dim_tempo: pl.DataFrame,
 ) -> pl.DataFrame:
-    """
-    Fato de compras — une todas as dimensões via surrogate keys.
-    Métricas: valor_total_pedido, valor_alocado_projeto,
-              quantidade_solicitada, qtd_pedidos.
-    SKs nulas após o join são substituídas por 0 (membro desconhecido).
-    """
     return (
         df_compras
-        .join(dim_projeto,     on="id_projeto",     how="left")
-        .join(dim_fornecedor,  on="id_fornecedor",  how="left")
-        .join(dim_material,    on="id_material",    how="left")
-        .join(dim_solicitacao, on="id_solicitacao", how="left")
-        .join(dim_tempo,       left_on="data", right_on="data_completa", how="left")
+        .join(_dim_lookup(dim_projeto, "sk_projeto", "id_projeto"),
+              on="id_projeto", how="left")
+        .join(_dim_lookup(dim_fornecedor, "sk_fornecedor", "id_fornecedor"),
+              on="id_fornecedor", how="left")
+        .join(_dim_lookup(dim_material, "sk_material", "id_material"),
+              on="id_material", how="left")
+        .join(_dim_lookup(dim_solicitacao, "sk_solicitacao", "id_solicitacao"),
+              on="id_solicitacao", how="left")
+        .with_columns(pl.col("data").cast(pl.String).str.strptime(pl.Date, "%Y-%m-%d").alias("data_date"))
+        .join(dim_tempo.select(["sk_tempo", "data_completa"]),
+              left_on="data_date", right_on="data_completa", how="left")
         .select([
-            "sk_projeto",
-            "sk_fornecedor",
-            "sk_material",
-            "sk_solicitacao",
-            "sk_tempo",
-            "valor_total_pedido",
-            "valor_alocado_projeto",
-            "quantidade_solicitada",
-            "qtd_pedidos",
+            "sk_projeto", "sk_fornecedor", "sk_material",
+            "sk_solicitacao", "sk_tempo",
+            "valor_total_pedido", "valor_alocado_projeto",
+            "quantidade_solicitada", "qtd_pedidos",
         ])
         .with_columns([
             pl.col("sk_projeto").fill_null(_SK_DESCONHECIDO),
@@ -55,25 +53,20 @@ def build_fato_execucao_tarefas(
     dim_responsavel: pl.DataFrame,
     dim_tempo: pl.DataFrame,
 ) -> pl.DataFrame:
-    """
-    Fato de execução de tarefas.
-    Métricas: horas_trabalhadas, horas_estimadas, qtd_registros.
-    SKs nulas após o join são substituídas por 0 (membro desconhecido).
-    """
     return (
         df_execucao
-        .join(dim_projeto,     on="id_projeto",      how="left")
-        .join(dim_tarefa,      on="id_tarefa",        how="left")
-        .join(dim_responsavel, on="nome_responsavel", how="left")
-        .join(dim_tempo,       left_on="data", right_on="data_completa", how="left")
+        .join(_dim_lookup(dim_projeto, "sk_projeto", "id_projeto"),
+              on="id_projeto", how="left")
+        .join(_dim_lookup(dim_tarefa, "sk_tarefa", "id_tarefa"),
+              on="id_tarefa", how="left")
+        .join(_dim_lookup(dim_responsavel, "sk_responsavel", "nome_responsavel"),
+              on="nome_responsavel", how="left")
+        .with_columns(pl.col("data").cast(pl.String).str.strptime(pl.Date, "%Y-%m-%d").alias("data_date"))
+        .join(dim_tempo.select(["sk_tempo", "data_completa"]),
+              left_on="data_date", right_on="data_completa", how="left")
         .select([
-            "sk_projeto",
-            "sk_tarefa",
-            "sk_responsavel",
-            "sk_tempo",
-            "horas_trabalhadas",
-            "horas_estimadas",
-            "qtd_registros",
+            "sk_projeto", "sk_tarefa", "sk_responsavel", "sk_tempo",
+            "horas_trabalhadas", "horas_estimadas", "qtd_registros",
         ])
         .with_columns([
             pl.col("sk_projeto").fill_null(_SK_DESCONHECIDO),
@@ -91,23 +84,18 @@ def build_fato_estoque_materiais(
     dim_material: pl.DataFrame,
     dim_tempo: pl.DataFrame,
 ) -> pl.DataFrame:
-    """
-    Fato de estoque de materiais.
-    Sem FK de fornecedor — correto conforme diagrama.
-    Métricas: quantidade_estoque, quantidade_empenhada, custo_estimado_total.
-    SKs nulas após o join são substituídas por 0 (membro desconhecido).
-    """
     return (
         df_estoque
-        .join(dim_projeto,  on="id_projeto",  how="left")
-        .join(dim_material, on="id_material", how="left")
-        .join(dim_tempo,    left_on="data", right_on="data_completa", how="left")
+        .join(_dim_lookup(dim_projeto, "sk_projeto", "id_projeto"),
+              on="id_projeto", how="left")
+        .join(_dim_lookup(dim_material, "sk_material", "id_material"),
+              on="id_material", how="left")
+        .with_columns(pl.col("data").cast(pl.String).str.strptime(pl.Date, "%Y-%m-%d").alias("data_date"))
+        .join(dim_tempo.select(["sk_tempo", "data_completa"]),
+              left_on="data_date", right_on="data_completa", how="left")
         .select([
-            "sk_projeto",
-            "sk_material",
-            "sk_tempo",
-            "quantidade_estoque",
-            "quantidade_empenhada",
+            "sk_projeto", "sk_material", "sk_tempo",
+            "quantidade_estoque", "quantidade_empenhada",
             "custo_estimado_total",
         ])
         .with_columns([
