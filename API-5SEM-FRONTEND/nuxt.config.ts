@@ -11,9 +11,13 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  routeRules: {
-    '/': { prerender: true }
+  runtimeConfig: {
+    public: {
+      backendUrl: process.env.BACKEND_PATH || 'http://localhost:8080'
+    }
   },
+
+  routeRules: {},
 
   compatibilityDate: '2025-01-15',
 
