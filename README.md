@@ -28,11 +28,11 @@
 
 # 🏅 Challenge
 
-The company **SIATT** executes strategic projects involving multiple areas of the organization, including engineering, material procurement, technical hours control, and institutional program management.
+**SIATT** manages complex strategic projects spanning multiple organizational domains, including engineering, materials procurement, technical hour tracking, and institutional program oversight.
 
-Currently, operational data is distributed across different systems and records, making integrated analysis difficult.
+Currently, operational data is fragmented across disparate systems and records, hindering integrated analysis and limiting visibility into project performance.
 
-The challenge of this project is to **integrate, structure, and analyze strategic project data**, enabling managers to have a consolidated view of resource consumption, activity progress, and operational history of company programs.
+The core challenge of this initiative is to **integrate, structure, and analyze strategic project data**, providing managers with a consolidated view of resource consumption, activity progress, and the operational history of company programs.
 
 ---
 
@@ -40,16 +40,16 @@ The challenge of this project is to **integrate, structure, and analyze strategi
 
 # 🏅 Solution
 
-The proposed solution consists of creating an **analytical platform for data integration and exploration**, capable of consolidating information from different areas of the company.
+The proposed solution is an **analytical platform for data integration and exploration**, designed to consolidate information from across the organization into a single, unified environment.
 
-The system will allow:
+The system will enable:
 
-- Integration of operational data  
-- Structuring data for analysis  
-- Historical visualization of project evolution  
-- Support for strategic decision-making  
+- Seamless integration of operational data from multiple sources
+- Structured data modeling to support reliable analysis
+- Historical visualization of project evolution over time
+- Actionable insights to support strategic decision-making
 
-The goal is to transform scattered data into **structured and accessible information**, enabling more efficient management of strategic programs and projects.
+The goal is to transform fragmented, scattered data into **structured and accessible intelligence**, enabling more efficient and informed management of strategic programs and projects.
 
 → [Back to top](#User-Standart)
 
@@ -59,29 +59,29 @@ The goal is to transform scattered data into **structured and accessible informa
 
 | ID | Functional Requirement | Description |
 |----|------------------------|-------------|
-| RF01 | ETL & Data Quality, DW | The system must collect and consolidate data from different sources such as spreadsheets and CSV files, standardizing project IDs and organizing the information into a unified database. |
-| RF02 | Data validation and cleaning | The system must identify inconsistencies in the imported data and perform validation and correction to ensure data quality before visualization. |
-| RF03 | Project cost visualization | The system must display the total cost of each project through dashboards, allowing managers to identify projects consuming more resources than expected. |
-| RF04 | Delay risk indicator | The system must display projects with a risk of delay using visual indicators and dashboards to help managers make faster decisions. |
-| RF05 | Cost vs execution dashboard | The system must present a comparative dashboard relating project cost and execution progress to evaluate project performance. |
-| RF06 | Investment by program | The system must display the total investment grouped by program, enabling strategic analysis of resource distribution. |
-| RF07 | Material consumption by project | The system must display the consumption of materials by project in graphs or tables to understand how resources are being used. |
-| RF08 | Time spent by task and project | The system must display the time spent on each task and project to allow productivity and effort analysis. |
-| RF09 | Analytical filters | The system must allow filtering dashboards by program, project, task, material, order, and time period to facilitate different levels of analysis. |
-| RF10 | Quick search | The system must allow quick search for projects, materials, and suppliers to locate specific information easily. |
-| RF11 | Data export | The system must allow exporting dashboards and reports in formats such as CSV and PDF for sharing results in meetings and presentations. |
-| RF12 | Data visualization dashboards | The system must provide analytical dashboards with graphs and tables to visualize consolidated project data. |
+| RF01 | ETL & Data Quality, DW | The system must collect and consolidate data from multiple sources — including spreadsheets and CSV files — standardizing project identifiers and organizing all information into a unified database. |
+| RF02 | Data Validation and Cleaning | The system must detect inconsistencies in imported data and apply validation and correction procedures to ensure data quality prior to visualization. |
+| RF03 | Project Cost Visualization | The system must display the total cost of each project through dashboards, enabling managers to identify projects exceeding expected resource consumption. |
+| RF04 | Delay Risk Indicator | The system must surface projects at risk of delay using visual indicators and dashboards, supporting faster and more informed managerial decisions. |
+| RF05 | Cost vs. Execution Dashboard | The system must present a comparative dashboard correlating project cost with execution progress to evaluate overall project performance. |
+| RF06 | Investment by Program | The system must display total investment grouped by program, enabling strategic analysis of resource distribution across the organization. |
+| RF07 | Material Consumption by Project | The system must display material consumption broken down by project, using charts or tables to illustrate how resources are being allocated and used. |
+| RF08 | Time Spent by Task and Project | The system must display the time logged per task and project, enabling productivity and effort analysis. |
+| RF09 | Analytical Filters | The system must support dashboard filtering by program, project, task, material, order, and time period to facilitate multi-level analysis. |
+| RF10 | Quick Search | The system must provide a quick search capability for projects, materials, and suppliers, allowing users to locate specific information with minimal effort. |
+| RF11 | Data Export | The system must support exporting dashboards and reports in formats such as CSV and PDF, facilitating the sharing of results in meetings and presentations. |
+| RF12 | Data Visualization Dashboards | The system must provide analytical dashboards featuring charts and tables for consolidated visualization of project data. |
 
 ## 📋 Non-Functional Requirements
 
 | ID | Non-Functional Requirement | Description |
 |----|----------------------------|-------------|
-| RNF01 | API Documentation | The system must provide clear and detailed documentation for the API endpoints used to access consolidated data. |
-| RNF02 | Responsiveness | The dashboards and visualization panels must be responsive and accessible from different devices such as desktop and mobile. |
-| RNF03 | User Manual | The system must have a manual to guide users on how to use the system, including step-by-step tutorials for key features, usage tips, and common troubleshooting. |
-| RNF04 | Data Quality | The system must ensure data integrity and consistency through validation and treatment during the ETL process. |
-| RNF05 | Data Warehouse Modeling | The system must implement a structured data model (DW – Data Warehouse) to support analytical queries and dashboards efficiently. |
-| RNF06 | Performance | The system must allow fast access to analytical dashboards and queries even when handling large datasets. |
+| RNF01 | API Documentation | The system must provide clear, comprehensive documentation for all API endpoints used to access consolidated data. |
+| RNF02 | Responsiveness | All dashboards and visualization panels must be fully responsive and accessible across different devices, including desktop and mobile. |
+| RNF03 | User Manual | The system must include a user manual guiding users through key features, with step-by-step tutorials, usage tips, and common troubleshooting guidance. |
+| RNF04 | Data Quality | The system must ensure data integrity and consistency through robust validation and transformation procedures during the ETL process. |
+| RNF05 | Data Warehouse Modeling | The system must implement a well-structured data model (Data Warehouse) capable of efficiently supporting analytical queries and dashboards. |
+| RNF06 | Performance | The system must deliver fast access to analytical dashboards and queries, even when operating over large datasets. |
 
 ---
 
@@ -107,41 +107,41 @@ The goal is to transform scattered data into **structured and accessible informa
 
 | Rank | Requirement Packages | User Story | Role | Priority | Sprint | Status | DoR (Definition of Ready) | DoD (Definition of Done) |
 |------|----------------------|------------|------|----------|--------|--------|---------------------------|---------------------------|
-| 1 | ETL & Data Quality, DW | As a User, I want to gather and organize data from different systems and spreadsheets so that I can view all information in a single place. | User | 1 | 1 | 🔄 In Progress | Data sources identified; data structure defined; ETL requirements documented. | Data integrated into the DW; ETL process implemented; data validated and documented. |
-| 2 | Dashboards, Docs & UX | As a User, I want to visualize the total cost of each project to identify which ones are consuming more resources than expected. | User | 1 | 1 | 🔄 In Progress | Project cost data available; dashboard layout defined; metrics specified. | Dashboard showing total cost per project implemented and validated. |
-| 3 | Dashboards | As a User, I want to visualize projects at risk of delay so that I can make decisions quickly. | User | 1 | 1 | 🔄 In Progress | Delay risk criteria defined; project timeline data available. | Dashboard highlights projects at risk; risk indicators validated. |
-| 4 | Dashboards, Analytics | As a User, I want to visualize dashboards relating project cost and execution to evaluate project performance. | User | 2 | 1 | 🔄 In Progress | Cost and execution data available; visualization requirements defined. | Dashboard relating cost and execution implemented and tested. |
-| 5 | Analytics | As a User, I want to visualize which program concentrates the highest investment to support strategic decisions. | User | 2 | 2 | ⏳ To Do | Investment data per program available; analysis requirements defined. | Visualization showing investment by program implemented and validated. |
-| 6 | Analytics | As a User, I want to visualize material consumption per project to understand resource usage. | User | 2 | 2 | ⏳ To Do | Material usage data available; project relation defined. | Dashboard displaying material consumption per project implemented. |
-| 7 | Analytics | As a User, I want to visualize time spent per task and project to evaluate effort and productivity. | User | 2 | 2 | ⏳ To Do | Task and time tracking data available; metrics defined. | Dashboard showing time spent per task and project implemented and validated. |
-| 8 | Filters & Search | As a User, I want to filter dashboards by program, project, task, material, order, and period to perform multi-level analysis. | User | 2 | 2 | ⏳ To Do | Filter fields defined; dataset prepared for filtering. | Interactive filters implemented and functioning across dashboards. |
-| 9 | Filters & Search | As a User, I want to quickly search for projects, materials, and suppliers to find information easily. | User | 3 | 2 | ⏳ To Do | Search fields defined; indexing strategy defined. | Search functionality implemented and returning correct results. |
-| 10 | Export, Docs & UX | As a User, I want to export reports and dashboards to share results in meetings and presentations. | User | 3 | 3 | ⏳ To Do | Export formats defined; data available for export. | Export feature implemented and generating correct files (PDF/Excel). |
+| 1 | ETL & Data Quality, DW | As a User, I want to collect and organize data from different systems and spreadsheets so that I can view all information in a single, unified place. | User | 1 | 1 | 🔄 In Progress | Data sources identified; data structure defined; ETL requirements documented. | Data integrated into the DW; ETL process implemented; data validated and documented. |
+| 2 | Dashboards, Docs & UX | As a User, I want to visualize the total cost of each project so that I can identify which ones are consuming more resources than planned. | User | 1 | 1 | 🔄 In Progress | Project cost data available; dashboard layout defined; metrics specified. | Dashboard displaying total cost per project implemented and validated. |
+| 3 | Dashboards | As a User, I want to visualize projects at risk of delay so that I can take corrective action quickly. | User | 1 | 1 | 🔄 In Progress | Delay risk criteria defined; project timeline data available. | Dashboard highlights at-risk projects; risk indicators validated. |
+| 4 | Dashboards, Analytics | As a User, I want to visualize dashboards correlating project cost and execution progress so that I can evaluate overall project performance. | User | 2 | 1 | 🔄 In Progress | Cost and execution data available; visualization requirements defined. | Cost vs. execution dashboard implemented and tested. |
+| 5 | Analytics | As a User, I want to visualize which program concentrates the highest investment so that I can support strategic resource allocation decisions. | User | 2 | 2 | ⏳ To Do | Investment data per program available; analysis requirements defined. | Investment-by-program visualization implemented and validated. |
+| 6 | Analytics | As a User, I want to visualize material consumption per project so that I can understand how resources are being utilized. | User | 2 | 2 | ⏳ To Do | Material usage data available; project relationship defined. | Material consumption dashboard implemented per project. |
+| 7 | Analytics | As a User, I want to visualize time spent per task and project so that I can evaluate team effort and productivity. | User | 2 | 2 | ⏳ To Do | Task and time tracking data available; metrics defined. | Time-spent dashboard per task and project implemented and validated. |
+| 8 | Filters & Search | As a User, I want to filter dashboards by program, project, task, material, order, and period so that I can perform multi-level analysis with precision. | User | 2 | 2 | ⏳ To Do | Filter fields defined; dataset prepared for filtering. | Interactive filters implemented and functioning across all dashboards. |
+| 9 | Filters & Search | As a User, I want to quickly search for projects, materials, and suppliers so that I can locate specific information with minimal effort. | User | 3 | 2 | ⏳ To Do | Search fields defined; indexing strategy established. | Search functionality implemented and returning accurate results. |
+| 10 | Export, Docs & UX | As a User, I want to export reports and dashboards so that I can share results effectively in meetings and presentations. | User | 3 | 3 | ⏳ To Do | Export formats defined; data prepared for export. | Export feature implemented and generating correct files (PDF/CSV). |
 
 ---
 
 <span id="dor"></span>
 
-# 🏃‍♂️ DoR - Definition of Ready
+# 🏃‍♂️ DoR — Definition of Ready
 
-- User stories with acceptance criteria  
-- Defined subtasks  
-- Defined design  
-- Database modeling  
-- System architecture definition  
-- Sprint planning  
+- User stories with defined acceptance criteria
+- Subtasks identified and assigned
+- UI/UX design defined
+- Database modeling completed
+- System architecture defined
+- Sprint planning conducted
 
 ---
 
 <span id="dod"></span>
 
-# 🏆 DoD - Definition of Done
+# 🏆 DoD — Definition of Done
 
-- Code implemented  
-- Tests executed  
-- Documentation updated  
-- API documentation completed  
-- Delivery presentation videos  
+- Code implemented and reviewed
+- Tests executed and passing
+- Documentation updated
+- API documentation completed
+- Sprint delivery presentation recorded
 
 → [Back to top](#User-Standart)
 
@@ -153,9 +153,9 @@ The goal is to transform scattered data into **structured and accessible informa
 
 | Sprint | Period | History |
 |--------|--------|---------|
-| Sprint 1 | 03/16 - 04/05 | [Sprint 1 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
-| Sprint 2 | 04/13 - 05/03 | [Sprint 2 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
-| Sprint 3 | 05/11 - 05/31 | [Sprint 3 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
+| Sprint 1 | 03/16 – 04/05 | [Sprint 1 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
+| Sprint 2 | 04/13 – 05/03 | [Sprint 2 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
+| Sprint 3 | 05/11 – 05/31 | [Sprint 3 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
 
 → [Back to top](#User-Standart)
 
@@ -225,20 +225,20 @@ The goal is to transform scattered data into **structured and accessible informa
 # 📜 Project Guidelines
 
 <details>
-<summary>Click to expand Project Rules and Commit Standard</summary>
+<summary>Click to expand — Project Rules and Commit Standard</summary>
 
 ## 👥 Team Participation Rules
 
-- Only **1 absence per month** is allowed in weekly meetings held on Thursday
-- Respect deadlines and follow the **commit standard**
-- Communicate difficulties during the process to avoid issues close to the final presentation
-- Every team member is expected to present **at least one sprint**
+- A maximum of **1 absence per month** is allowed for weekly meetings held on Thursdays
+- All members must respect deadlines and adhere to the **commit standard**
+- Difficulties must be communicated proactively to avoid last-minute issues before final presentations
+- Every team member is expected to **present at least one sprint**
 
 ---
 
 ## 📌 Commit Standard
 
-Commits must follow the **"Commit Pattern – by Renato Adorno"** to ensure consistency and clarity across the repository.
+All commits must follow the **"Commit Pattern – by Renato Adorno"** to ensure consistency and clarity across the repository.
 
 ### Commit Format
 
@@ -246,7 +246,7 @@ Commits must follow the **"Commit Pattern – by Renato Adorno"** to ensure cons
 
 The description must:
 - Be written in **English**
-- Use a **direct action tone**
+- Use a **direct, imperative tone**
 - Be **clear and concise**
 
 ---
@@ -254,13 +254,13 @@ The description must:
 ### 🧩 Commit Types
 
 - **fix** – Fixes a bug
-- **feat** – Adds a new feature
-- **docs** – Documentation changes only
-- **style** – Code formatting changes with no logic changes
-- **refactor** – Code improvements without changing behavior
-- **build** – Build system or dependency changes
+- **feat** – Introduces a new feature
+- **docs** – Documentation-only changes
+- **style** – Code formatting changes with no logic impact
+- **refactor** – Code improvements that do not alter behavior
+- **build** – Changes to the build system or dependencies
 - **test** – Adding or updating tests
-- **chore** – Maintenance tasks
+- **chore** – Routine maintenance tasks
 
 ---
 
@@ -277,12 +277,12 @@ The description must:
 ### ⚠️ Rules
 
 - Always write commits in **English**
-- Follow the defined **types strictly**
-- Avoid vague messages such as:
+- Strictly follow the defined **commit types**
+- Avoid vague or uninformative messages such as:
   - `update`
   - `fix stuff`
 
-Prefer clear messages such as:
+Always prefer descriptive, actionable messages such as:
 
     fix: correct null pointer exception in service layer
 
