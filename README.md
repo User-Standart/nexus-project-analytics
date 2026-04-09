@@ -193,7 +193,7 @@ The goal is to transform fragmented, scattered data into **structured and access
 
 # 🖥️ Database Modeling
 
-🚧 Under construction
+[Relational Model](https://github.com/User-Standart/API-5SEM-ETL/blob/main/docs/modelo_relacional.png)
 
 → [Back to top](#User-Standart)
 
@@ -213,6 +213,7 @@ The goal is to transform fragmented, scattered data into **structured and access
 | Developer | Tiago Bernardo | [LinkedIn](https://www.linkedin.com/in/tiagobernardosantos/) · [GitHub](https://github.com/TiagoBernardoSantos) |
 | Developer | Victor Ryan | [LinkedIn](https://www.linkedin.com/in/victor-ryan-51738b261) · [GitHub](https://github.com/yzvictorr) |
 | Developer | Ali Mohamed Khodr | [LinkedIn](https://www.linkedin.com/in/alimohamedkhodr/) · [GitHub](https://github.com/alimkhodr) |
+| Developer | Aline Ramos | [LinkedIn](https://www.linkedin.com/in/aline-ramos-3186b130/) · [GitHub](https://github.com/allineramos) |
 
 </div>
 
