@@ -13,6 +13,7 @@
     <a href="#dod">DoD</a>  |  
     <a href="#sprint-schedule">Sprint Schedule</a>  |  
     <a href="#technologies">Technologies</a> | 
+    <a href="#getting-started">Getting Started</a> | 
     <a href="#api-documentation">API Documentation</a> | 
     <a href="#database-modeling">Database Modeling</a> | 
     <a href="#team">Team</a> |
@@ -174,6 +175,109 @@ The goal is to transform fragmented, scattered data into **structured and access
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
 </p>
+
+→ [Back to top](#User-Standart)
+
+---
+
+<span id="getting-started"></span>
+
+# 🚀 Getting Started
+
+### Prerequisites
+
+- [Git](https://git-scm.com/)
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+
+### 1. Clone the repository with submodules
+
+```bash
+git clone --recurse-submodules https://github.com/User-Standart/API-5SEM.git
+cd API-5SEM
+```
+
+> **Already cloned without `--recurse-submodules`?** Run the command below to initialize the submodules:
+>
+> ```bash
+> git submodule update --init --recursive
+> ```
+
+### 2. Configure the submodules to track their remote branches
+
+By default, submodules are checked out in a detached HEAD state. To work on them as actual repositories (create branches, commit, push, etc.), run the following inside each submodule:
+
+```bash
+cd API-5SEM-BACKEND
+git checkout main
+cd ..
+
+cd API-5SEM-ETL
+git checkout main
+cd ..
+
+cd API-5SEM-FRONTEND
+git checkout main
+cd ..
+```
+
+### 3. Set up environment variables
+
+Copy the example file and adjust values if needed:
+
+```bash
+cp .env.example .env
+```
+
+The default `.env.example` contains:
+
+```env
+# PostgreSQL
+POSTGRES_USER=appdb
+POSTGRES_PASSWORD=appdb
+POSTGRES_DB=appdb
+
+# Backend
+PORT=8080
+DATABASE_URL=postgres://appdb:appdb@db:5432/appdb?sslmode=disable
+
+# Frontend
+BACKEND_PATH=http://backend:8080
+```
+
+### 4. Start the application
+
+```bash
+docker compose up --build
+```
+
+This will start all services:
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **Frontend** | http://localhost:3000 | Nuxt 3 application (hot-reload enabled) |
+| **Backend** | http://localhost:8080 | Go REST API |
+| **Database** | localhost:5433 | PostgreSQL 17 (mapped to port 5433 to avoid conflicts) |
+| **ETL** | — | Python pipeline (runs and exits) |
+
+### 5. Stop the application
+
+```bash
+docker compose down
+```
+
+To also remove the database volume (reset all data):
+
+```bash
+docker compose down -v
+```
+
+### Pulling submodule updates
+
+To pull the latest changes from all submodules:
+
+```bash
+git submodule update --remote --merge
+```
 
 → [Back to top](#User-Standart)
 

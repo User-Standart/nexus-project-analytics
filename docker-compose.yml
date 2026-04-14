@@ -49,6 +49,9 @@ services:
       - .env
     environment:
       PORT: "3000"
+    volumes:
+      - ./API-5SEM-FRONTEND/app:/app/app
+      - ./API-5SEM-FRONTEND/public:/app/public
     depends_on:
       - backend
 
