@@ -1,4 +1,4 @@
-# Unit Testing Guide — Frontend (Nuxt.js)
+# Unit Testing Guide — Frontend
 
 ## Overview
 
