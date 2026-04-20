@@ -38,7 +38,7 @@ const options = computed(() => ({
     },
     tooltip: {
       callbacks: {
-        label: (ctx: any) =>
+        label: (ctx: { raw: unknown }) =>
           Number(ctx.raw).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
       }
     }
@@ -51,7 +51,7 @@ const options = computed(() => ({
     y: {
       ticks: {
         color: textColor.value,
-        callback: (value: any) =>
+        callback: (value: unknown) =>
           Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
       },
       grid: { color: gridColor.value }
