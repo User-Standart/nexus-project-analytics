@@ -24,3 +24,9 @@ export interface FatoCompra {
   valor_total_pedido: string
   valor_alocado_projeto: string
 }
+
+export interface ProgramaInvestimento {
+  codigo_programa: string
+  nome_programa: string
+  investimento_total: string
+}
