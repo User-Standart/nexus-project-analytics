@@ -5,7 +5,7 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const { data: programas, status } = await useFetch<ProgramaInvestimento[]>('/proxy/api/programa/investimento')
+const { data: programas, status } = await useApi<ProgramaInvestimento[]>('/api/programa/investimento')
 
 const loading = computed(() => status.value === 'pending')
 </script>

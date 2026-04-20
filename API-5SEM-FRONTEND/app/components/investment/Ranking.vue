@@ -5,12 +5,6 @@ const props = defineProps<{
   programas: ProgramaInvestimento[]
 }>()
 
-const medals = [
-  { icon: 'i-lucide-trophy', class: 'text-yellow-400' },
-  { icon: 'i-lucide-trophy', class: 'text-slate-400' },
-  { icon: 'i-lucide-trophy', class: 'text-amber-700' }
-]
-
 const top3 = computed(() =>
   [...props.programas]
     .sort((a, b) => Number(b.investimento_total) - Number(a.investimento_total))
@@ -26,9 +20,8 @@ const top3 = computed(() =>
     >
       <div class="flex flex-col items-center gap-2 py-2 text-center">
         <UIcon
-          :name="medals[index].icon"
-          :class="medals[index].class"
-          class="size-10"
+          name="i-lucide-trophy"
+          :class="[index === 0 ? 'text-yellow-400' : index === 1 ? 'text-slate-400' : 'text-amber-700', 'size-10']"
         />
         <p class="text-2xl font-extrabold text-primary">
           {{ programa.nome_programa }}
