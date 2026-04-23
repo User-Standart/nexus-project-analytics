@@ -10,11 +10,11 @@ const statusFiltro = ref('Todos')
 const pagina = ref(1)
 const porPagina = 5
 
-const programas = computed(() => ['Todos', ...new Set(props.projetos.map(p => p.nome_programa))])
-const statuses = computed(() => ['Todos', ...new Set(props.projetos.map(p => p.status))])
+const programas = computed(() => ['Todos', ...new Set(props.projetos.map((p) => p.nome_programa))])
+const statuses = computed(() => ['Todos', ...new Set(props.projetos.map((p) => p.status))])
 
 const projetosFiltrados = computed(() => {
-  return props.projetos.filter(p => {
+  return props.projetos.filter((p) => {
     const matchPrograma = programaFiltro.value === 'Todos' || p.nome_programa === programaFiltro.value
     const matchStatus = statusFiltro.value === 'Todos' || p.status === statusFiltro.value
     return matchPrograma && matchStatus
