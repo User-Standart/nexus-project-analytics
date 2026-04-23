@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import type { ProgramaInvestimento } from '~/types/api'
+import type { ProgramaInvestimento, DimProjeto } from '~/types/api'
 
 definePageMeta({
   layout: 'dashboard'
 })
 
 const { data: programas, status } = await useApi<ProgramaInvestimento[]>('/api/programa/investimento')
+const { data: projetos, status: projetosStatus } = await useApi<DimProjeto[]>('/api/dim/projetos')
 
-const loading = computed(() => status.value === 'pending')
+const loading = computed(() => status.value === 'pending' || projetosStatus.value === 'pending')
+
+const projetosPorPrograma = computed(() => {
+  if (!projetos.value) return new Map<string, DimProjeto[]>()
+  const map = new Map<string, DimProjeto[]>()
+  for (const p of projetos.value) {
+    const lista = map.get(p.codigo_programa) ?? []
+    lista.push(p)
+    map.set(p.codigo_programa, lista)
+  }
+  return map
+})
 </script>
 
 <template>
@@ -46,36 +58,14 @@ const loading = computed(() => status.value === 'pending')
           <InvestmentRanking
             v-else-if="programas"
             :programas="programas"
+            :projetos-por-programa="projetosPorPrograma"
           />
         </div>
 
-        <UCard>
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon
-                name="i-lucide-bar-chart-3"
-                class="size-5 text-primary"
-              />
-              <h3 class="font-semibold">
-                Investimento por Programa
-              </h3>
-            </div>
-          </template>
-          <template v-if="loading">
-            <div class="flex h-72 items-end gap-3 px-4">
-              <USkeleton
-                v-for="i in 3"
-                :key="i"
-                class="flex-1 rounded-t"
-                :style="{ height: `${40 + i * 20}%` }"
-              />
-            </div>
-          </template>
-          <InvestmentBarChart
-            v-else-if="programas"
-            :programas="programas"
-          />
-        </UCard>
+        <InvestmentTable
+          v-if="projetos"
+          :projetos="projetos"
+        />
       </div>
     </template>
   </UDashboardPanel>

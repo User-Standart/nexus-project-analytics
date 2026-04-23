@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { ProgramaInvestimento } from '~/types/api'
+import type { ProgramaInvestimento, DimProjeto } from '~/types/api'
 
 const props = defineProps<{
   programas: ProgramaInvestimento[]
+  projetosPorPrograma: Map<string, DimProjeto[]>
 }>()
 
 const top3 = computed(() =>
@@ -29,6 +30,10 @@ const top3 = computed(() =>
         <p class="text-lg font-bold">
           {{ Number(programa.investimento_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
         </p>
+        <div class="flex gap-4 border-t border-gray-100 pt-2 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
+          <span>{{ projetosPorPrograma.get(programa.codigo_programa)?.length ?? 0 }} projetos</span>
+          <span>{{ projetosPorPrograma.get(programa.codigo_programa)?.[0]?.gerente_programa ?? '' }}</span>
+        </div>
       </div>
     </UCard>
   </div>
