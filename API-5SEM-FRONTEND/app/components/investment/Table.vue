@@ -33,13 +33,11 @@ watch([programaFiltro, statusFiltro], () => {
 })
 
 function statusColor(status: string) {
-  switch (status) {
-    case 'Concluído': return 'success'
-    case 'Em andamento': return 'info'
-    case 'Planejamento': return 'warning'
-    case 'Suspenso': return 'error'
-    default: return 'neutral'
-  }
+  if (status === 'Concluído') return 'success'
+  if (status === 'Em andamento') return 'info'
+  if (status === 'Planejamento') return 'warning'
+  if (status === 'Suspenso') return 'error'
+  return 'neutral'
 }
 
 function formatDate(date: string) {
