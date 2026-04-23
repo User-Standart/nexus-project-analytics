@@ -24,3 +24,23 @@ export interface FatoCompra {
   valor_total_pedido: string
   valor_alocado_projeto: string
 }
+
+export interface ProgramaInvestimento {
+  codigo_programa: string
+  nome_programa: string
+  investimento_total: string
+}
+
+export interface DimProjeto {
+  sk_projeto: string
+  id_projeto: string
+  nome_projeto: string
+  status: string
+  codigo_projeto: string
+  codigo_programa: string
+  nome_programa: string
+  gerente_programa: string
+  responsavel: string
+  data_inicio: string
+  data_fim_prevista: string
+}

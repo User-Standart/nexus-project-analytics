@@ -7,6 +7,11 @@ const items: NavigationMenuItem[][] = [
       label: 'Home',
       icon: 'i-lucide-house',
       to: '/'
+    },
+    {
+      label: 'Investimentos',
+      icon: 'i-lucide-trending-up',
+      to: '/investimento'
     }
     // {
     //   label: 'Customers',
