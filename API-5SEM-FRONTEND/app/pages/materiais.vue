@@ -5,9 +5,9 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const { data: materiais, status } = await useApi<MateriaisPorProjeto[]>('/api/projetos/materiais')
+const { data: materiais, status } = useApi<MateriaisPorProjeto[]>('/api/projetos/materiais')
 
-const loading = computed(() => status.value === 'pending')
+const loading = computed(() => status.value !== 'success')
 
 const totalProjetos = computed(() => new Set(materiais.value?.map(m => m.codigo_projeto)).size)
 
@@ -127,8 +127,23 @@ const stats = computed(() => [
             />
           </UCard>
 
+          <UCard v-if="loading">
+            <template #header>
+              <div class="flex items-center justify-between">
+                <USkeleton class="h-5 w-48" />
+                <USkeleton class="h-9 w-44" />
+              </div>
+            </template>
+            <div class="space-y-3">
+              <USkeleton
+                v-for="i in 5"
+                :key="i"
+                class="h-10 w-full"
+              />
+            </div>
+          </UCard>
           <MaterialsTable
-            v-if="materiais"
+            v-else-if="materiais"
             :materiais="materiais"
           />
         </div>

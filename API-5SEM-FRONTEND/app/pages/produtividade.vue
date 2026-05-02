@@ -5,10 +5,10 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const { data: execucoes, status } = await useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
-const { data: tempoGasto } = await useApi<TempoGasto>('/api/dim/tempo-gasto')
+const { data: execucoes, status } = useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
+const { data: tempoGasto, status: tempoGastoStatus } = useApi<TempoGasto>('/api/dim/tempo-gasto')
 
-const loading = computed(() => status.value === 'pending')
+const loading = computed(() => status.value !== 'success' || tempoGastoStatus.value !== 'success')
 
 const responsavelMaisProdutivo = computed(() => {
   if (!execucoes.value?.length) return '-'
@@ -126,8 +126,23 @@ const stats = computed(() => [
             />
           </UCard>
 
+          <UCard v-if="loading">
+            <template #header>
+              <div class="flex items-center justify-between">
+                <USkeleton class="h-5 w-32" />
+                <USkeleton class="h-9 w-48" />
+              </div>
+            </template>
+            <div class="space-y-3">
+              <USkeleton
+                v-for="i in 5"
+                :key="i"
+                class="h-10 w-full"
+              />
+            </div>
+          </UCard>
           <ProductivityTable
-            v-if="execucoes"
+            v-else-if="execucoes"
             :execucoes="execucoes"
           />
         </div>
