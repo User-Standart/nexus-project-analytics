@@ -12,6 +12,11 @@ const items: NavigationMenuItem[][] = [
       label: 'Investimentos',
       icon: 'i-lucide-trending-up',
       to: '/investimento'
+    },
+    {
+      label: 'Materiais',
+      icon: 'i-lucide-package',
+      to: '/materiais'
     }
     // {
     //   label: 'Customers',

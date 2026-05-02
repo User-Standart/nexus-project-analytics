@@ -44,3 +44,11 @@ export interface DimProjeto {
   data_inicio: string
   data_fim_prevista: string
 }
+
+export interface MateriaisPorProjeto {
+  codigo_projeto: string
+  nome_projeto: string
+  codigo_material: string
+  descricao_material: string
+  quantidade_estoque: number
+}
