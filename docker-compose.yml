@@ -52,6 +52,7 @@ services:
     volumes:
       - ./API-5SEM-FRONTEND/app:/app/app
       - ./API-5SEM-FRONTEND/public:/app/public
+      - ./API-5SEM-FRONTEND/server:/app/server
     depends_on:
       - backend
 
