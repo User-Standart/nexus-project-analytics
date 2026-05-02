@@ -17,6 +17,11 @@ const items: NavigationMenuItem[][] = [
       label: 'Materiais',
       icon: 'i-lucide-package',
       to: '/materiais'
+    },
+    {
+      label: 'Produtividade',
+      icon: 'i-lucide-activity',
+      to: '/produtividade'
     }
     // {
     //   label: 'Customers',

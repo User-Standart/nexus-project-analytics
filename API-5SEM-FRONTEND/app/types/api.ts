@@ -52,3 +52,16 @@ export interface MateriaisPorProjeto {
   descricao_material: string
   quantidade_estoque: number
 }
+
+export interface FatoExecucao {
+  sk_fato: string
+  sk_projeto: string
+  sk_tarefa: string
+  sk_responsavel: string
+  sk_tempo: string
+  horas_trabalhadas: string
+}
+
+export interface TempoGasto {
+  total_tempo_gasto: number
+}
