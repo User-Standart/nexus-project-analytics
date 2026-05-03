@@ -5,30 +5,63 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const { data: projetos, status: projetosStatus } = await useApi<DimProjeto[]>('/api/dim/projetos')
-const { data: tarefas, status: tarefasStatus } = await useApi<DimTarefa[]>('/api/dim/tarefas')
-const { data: execucoes, status: execucoesStatus } = await useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
-const { data: compras, status: comprasStatus } = await useApi<FatoCompra[]>('/api/fato/compras')
+const { data: projetos, status: projetosStatus } = useApi<DimProjeto[]>('/api/dim/projetos')
+const { data: tarefas, status: tarefasStatus } = useApi<DimTarefa[]>('/api/dim/tarefas')
+const { data: execucoes, status: execucoesStatus } = useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
+const { data: compras, status: comprasStatus } = useApi<FatoCompra[]>('/api/fato/compras')
 
 const loading = computed(() =>
-  projetosStatus.value === 'pending'
-  || tarefasStatus.value === 'pending'
-  || execucoesStatus.value === 'pending'
-  || comprasStatus.value === 'pending'
+  projetosStatus.value !== 'success'
+  || tarefasStatus.value !== 'success'
+  || execucoesStatus.value !== 'success'
+  || comprasStatus.value !== 'success'
+)
+
+const filtros = ref({ programa: 'Todos', status: 'Todos' })
+
+const filterFields = computed(() => [
+  {
+    key: 'programa' as const,
+    label: 'Programa',
+    options: ['Todos', ...new Set(projetos.value?.map(p => p.nome_programa) ?? [])]
+  },
+  {
+    key: 'status' as const,
+    label: 'Status',
+    options: ['Todos', ...new Set(projetos.value?.map(p => p.status) ?? [])]
+  }
+])
+
+const projetosFiltrados = computed(() => {
+  if (!projetos.value) return []
+  return projetos.value.filter(p =>
+    (filtros.value.programa === 'Todos' || p.nome_programa === filtros.value.programa)
+    && (filtros.value.status === 'Todos' || p.status === filtros.value.status)
+  )
+})
+
+const skProjetosFiltrados = computed(() => new Set(projetosFiltrados.value.map(p => p.id_projeto)))
+
+const execucoesFiltradas = computed(() =>
+  execucoes.value?.filter(e => skProjetosFiltrados.value.has(e.sk_projeto)) ?? []
+)
+
+const comprasFiltradas = computed(() =>
+  compras.value?.filter(c => skProjetosFiltrados.value.has(c.sk_projeto)) ?? []
 )
 
 const totalHoras = computed(() =>
-  execucoes.value?.reduce((acc, e) => acc + Number(e.horas_trabalhadas), 0) ?? 0
+  execucoesFiltradas.value.reduce((acc, e) => acc + Number(e.horas_trabalhadas), 0)
 )
 
 const totalCompras = computed(() =>
-  compras.value?.reduce((acc, c) => acc + Number(c.valor_total_pedido), 0) ?? 0
+  comprasFiltradas.value.reduce((acc, c) => acc + Number(c.valor_total_pedido), 0)
 )
 
 const stats = computed(() => [
   {
     label: 'Projetos',
-    value: projetos.value?.length ?? 0,
+    value: projetosFiltrados.value.length,
     icon: 'i-lucide-folder-kanban'
   },
   {
@@ -49,8 +82,8 @@ const stats = computed(() => [
 ])
 
 const projetoNomeMap = computed(() => {
-  if (!projetos.value) return new Map<string, string>()
-  return new Map(projetos.value.map(p => [p.id_projeto, p.nome_projeto]))
+  if (!projetosFiltrados.value.length) return new Map<string, string>()
+  return new Map(projetosFiltrados.value.map(p => [p.id_projeto, p.nome_projeto]))
 })
 
 function groupBy(items: { sk_projeto: string }[] | null, field: string) {
@@ -72,8 +105,8 @@ function groupBy(items: { sk_projeto: string }[] | null, field: string) {
   return { labels, data }
 }
 
-const horasPorProjeto = computed(() => groupBy(execucoes.value ?? null, 'horas_trabalhadas'))
-const comprasPorProjeto = computed(() => groupBy(compras.value ?? null, 'valor_alocado_projeto'))
+const horasPorProjeto = computed(() => groupBy(execucoesFiltradas.value, 'horas_trabalhadas'))
+const comprasPorProjeto = computed(() => groupBy(comprasFiltradas.value, 'valor_alocado_projeto'))
 </script>
 
 <template>
@@ -90,6 +123,13 @@ const comprasPorProjeto = computed(() => groupBy(compras.value ?? null, 'valor_a
     </template>
 
     <template #body>
+      <AppFilters
+        v-if="!loading"
+        v-model="filtros"
+        :fields="filterFields"
+        class="mb-4"
+      />
+
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <template v-if="loading">
           <UCard

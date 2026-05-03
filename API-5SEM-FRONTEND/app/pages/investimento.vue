@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import type { ProgramaInvestimento, DimProjeto } from '~/types/api'
+import type { ProgramaInvestimento, DimProjeto, FatoExecucao, FatoCompra, MateriaisPorProjeto } from '~/types/api'
 
 definePageMeta({
   layout: 'dashboard'
 })
 
-const { data: programas, status } = await useApi<ProgramaInvestimento[]>('/api/programa/investimento')
-const { data: projetos, status: projetosStatus } = await useApi<DimProjeto[]>('/api/dim/projetos')
+const { data: programas, status } = useApi<ProgramaInvestimento[]>('/api/programa/investimento')
+const { data: projetos, status: projetosStatus } = useApi<DimProjeto[]>('/api/dim/projetos')
+const { data: execucoes } = useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
+const { data: compras } = useApi<FatoCompra[]>('/api/fato/compras')
+const { data: materiais } = useApi<MateriaisPorProjeto[]>('/api/projetos/materiais')
 
-const loading = computed(() => status.value === 'pending' || projetosStatus.value === 'pending')
+const loading = computed(() => status.value !== 'success' || projetosStatus.value !== 'success')
 
 const projetosPorPrograma = computed(() => {
   if (!projetos.value) return new Map<string, DimProjeto[]>()
@@ -62,9 +65,30 @@ const projetosPorPrograma = computed(() => {
           />
         </div>
 
+        <UCard v-if="loading">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <USkeleton class="h-5 w-48" />
+              <div class="flex gap-3">
+                <USkeleton class="h-9 w-32" />
+                <USkeleton class="h-9 w-32" />
+              </div>
+            </div>
+          </template>
+          <div class="space-y-3">
+            <USkeleton
+              v-for="i in 5"
+              :key="i"
+              class="h-10 w-full"
+            />
+          </div>
+        </UCard>
         <InvestmentTable
-          v-if="projetos"
+          v-else-if="projetos"
           :projetos="projetos"
+          :execucoes="execucoes ?? []"
+          :compras="compras ?? []"
+          :materiais="materiais ?? []"
         />
       </div>
     </template>

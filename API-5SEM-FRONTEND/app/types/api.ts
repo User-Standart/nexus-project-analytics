@@ -44,3 +44,24 @@ export interface DimProjeto {
   data_inicio: string
   data_fim_prevista: string
 }
+
+export interface MateriaisPorProjeto {
+  codigo_projeto: string
+  nome_projeto: string
+  codigo_material: string
+  descricao_material: string
+  quantidade_estoque: number
+}
+
+export interface FatoExecucao {
+  sk_fato: string
+  sk_projeto: string
+  sk_tarefa: string
+  sk_responsavel: string
+  sk_tempo: string
+  horas_trabalhadas: string
+}
+
+export interface TempoGasto {
+  total_tempo_gasto: number
+}
