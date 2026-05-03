@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProgramaInvestimento, DimProjeto } from '~/types/api'
+import type { ProgramaInvestimento, DimProjeto, FatoExecucao, FatoCompra, MateriaisPorProjeto } from '~/types/api'
 
 definePageMeta({
   layout: 'dashboard'
@@ -7,6 +7,9 @@ definePageMeta({
 
 const { data: programas, status } = useApi<ProgramaInvestimento[]>('/api/programa/investimento')
 const { data: projetos, status: projetosStatus } = useApi<DimProjeto[]>('/api/dim/projetos')
+const { data: execucoes } = useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
+const { data: compras } = useApi<FatoCompra[]>('/api/fato/compras')
+const { data: materiais } = useApi<MateriaisPorProjeto[]>('/api/projetos/materiais')
 
 const loading = computed(() => status.value !== 'success' || projetosStatus.value !== 'success')
 
@@ -83,6 +86,9 @@ const projetosPorPrograma = computed(() => {
         <InvestmentTable
           v-else-if="projetos"
           :projetos="projetos"
+          :execucoes="execucoes ?? []"
+          :compras="compras ?? []"
+          :materiais="materiais ?? []"
         />
       </div>
     </template>

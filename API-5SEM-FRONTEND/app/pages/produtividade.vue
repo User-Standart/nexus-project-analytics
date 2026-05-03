@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FatoExecucao, TempoGasto } from '~/types/api'
+import type { FatoExecucao, TempoGasto, DimProjeto, DimTarefa } from '~/types/api'
 
 definePageMeta({
   layout: 'dashboard'
@@ -7,6 +7,8 @@ definePageMeta({
 
 const { data: execucoes, status } = useApi<FatoExecucao[]>('/api/fato/execucao-tarefas')
 const { data: tempoGasto, status: tempoGastoStatus } = useApi<TempoGasto>('/api/dim/tempo-gasto')
+const { data: projetos } = useApi<DimProjeto[]>('/api/dim/projetos')
+const { data: tarefas } = useApi<DimTarefa[]>('/api/dim/tarefas')
 
 const loading = computed(() => status.value !== 'success' || tempoGastoStatus.value !== 'success')
 
@@ -144,6 +146,8 @@ const stats = computed(() => [
           <ProductivityTable
             v-else-if="execucoes"
             :execucoes="execucoes"
+            :projetos="projetos ?? []"
+            :tarefas="tarefas ?? []"
           />
         </div>
       </div>
