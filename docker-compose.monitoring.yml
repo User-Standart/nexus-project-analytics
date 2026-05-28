@@ -23,6 +23,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
