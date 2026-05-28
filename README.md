@@ -273,7 +273,7 @@ docker compose down -v
 
 ### Pulling submodule updates
 
-To pull the latest changes from all submodules:
+To pull the latest changes from all  submodules:
 
 ```bash
 git submodule update --remote --merge
