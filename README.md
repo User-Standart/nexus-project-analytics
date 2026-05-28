@@ -20,7 +20,7 @@
     <a href="#project-guidelines">Project Guidelines</a>
 </p>
 
-> Project Status: **In Development  🚧** <br /><br />
+> Project Status: **In Development 🚧** <br /><br />
 > Documentation Folder: [Link](https://github.com/User-Standart/API-5SEM/tree/main/docs) 📄 <br /><br />
 
 ---
