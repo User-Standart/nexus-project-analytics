@@ -17,7 +17,7 @@
     <a href="#api-documentation">API Documentation</a> | 
     <a href="#database-modeling">Database Modeling</a> | 
     <a href="#team">Team</a> |
-    <a href="#project-guidelines">Project  Guidelines</a>
+    <a href="#project-guidelines">Project Guidelines</a>
 </p>
 
 > Project Status: **In Development 🚧** <br /><br />
