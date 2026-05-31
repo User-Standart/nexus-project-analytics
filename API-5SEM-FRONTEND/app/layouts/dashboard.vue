@@ -19,9 +19,9 @@ const items: NavigationMenuItem[][] = [
       to: '/materiais'
     },
     {
-      label: 'Produtividade',
+      label: 'Horas Trabalhadas',
       icon: 'i-lucide-activity',
-      to: '/produtividade'
+      to: '/horastrabalhadas'
     }
     // {
     //   label: 'Customers',

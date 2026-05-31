@@ -2,7 +2,10 @@
 import { computed, ref } from 'vue'
 
 import type {
-  MateriaisPorProjeto
+  FatoExecucao,
+  TempoGasto,
+  DimProjeto,
+  DimTarefa
 } from '~/types/api'
 
 definePageMeta({
@@ -12,23 +15,42 @@ definePageMeta({
 const pesquisa = ref('')
 
 const {
-  data: materiais,
+  data: execucoes,
   status
-} = useApi<MateriaisPorProjeto[]>(
-  '/api/projetos/materiais'
+} = useApi<FatoExecucao[]>(
+  '/api/fato/execucao-tarefas'
+)
+
+const {
+  status: tempoGastoStatus
+} = useApi<TempoGasto>(
+  '/api/dim/tempo-gasto'
+)
+
+const {
+  data: projetos
+} = useApi<DimProjeto[]>(
+  '/api/dim/projetos'
+)
+
+const {
+  data: tarefas
+} = useApi<DimTarefa[]>(
+  '/api/dim/tarefas'
 )
 
 const loading = computed(() =>
   status.value !== 'success'
+  || tempoGastoStatus.value !== 'success'
 )
 
-const materiaisFiltrados = computed(() => {
-  if (!materiais.value) {
+const execucoesFiltradas = computed(() => {
+  if (!execucoes.value) {
     return []
   }
 
-  return materiais.value.filter(material =>
-    material.descricao_material
+  return execucoes.value.filter(execucao =>
+    execucao.sk_responsavel
       .toLowerCase()
       .includes(
         pesquisa.value.toLowerCase()
@@ -36,67 +58,41 @@ const materiaisFiltrados = computed(() => {
   )
 })
 
-const totalProjetos = computed(() =>
-  new Set(
-    materiaisFiltrados.value.map(
-      m => m.codigo_projeto
-    )
-  ).size
-)
-
-const mediaPorMaterial = computed(() => {
-  if (!materiaisFiltrados.value.length) {
+const mediaPorExecucao = computed(() => {
+  if (!execucoesFiltradas.value.length) {
     return 0
   }
 
   const total
-    = materiaisFiltrados.value.reduce(
-      (acc, m) =>
-        acc + m.quantidade_estoque,
+    = execucoesFiltradas.value.reduce(
+      (acc, e) =>
+        acc + Number(e.horas_trabalhadas),
       0
     )
 
-  return Math.round(
-    total / materiaisFiltrados.value.length
-  )
+  return (
+    total / execucoesFiltradas.value.length
+  ).toFixed(1)
 })
 
-const materialMaisFrequente = computed(() => {
-  if (!materiaisFiltrados.value.length) {
-    return '-'
-  }
-
-  const map = new Map<
-    string,
-    number
-  >()
-
-  for (const m of materiaisFiltrados.value) {
-    map.set(
-      m.descricao_material,
-      (map.get(m.descricao_material) ?? 0) + 1
-    )
-  }
-
-  return [...map.entries()]
-    .sort((a, b) => b[1] - a[1])[0]?.[0] ?? '-'
+const totalHoras = computed(() => {
+  return execucoesFiltradas.value.reduce(
+    (acc, e) =>
+      acc + Number(e.horas_trabalhadas),
+    0
+  )
 })
 
 const stats = computed(() => [
   {
-    label: 'Material mais frequente',
-    value: materialMaisFrequente.value,
-    icon: 'i-lucide-package-search'
+    label: 'Total de horas registradas',
+    value: `${totalHoras.value.toFixed(1)}h`,
+    icon: 'i-lucide-clock'
   },
   {
-    label: 'Projetos com materiais',
-    value: totalProjetos.value,
-    icon: 'i-lucide-folder-kanban'
-  },
-  {
-    label: 'Média de estoque por material',
-    value: mediaPorMaterial.value,
-    icon: 'i-lucide-boxes'
+    label: 'Média de horas por execução',
+    value: `${mediaPorExecucao.value}h`,
+    icon: 'i-lucide-bar-chart-2'
   }
 ])
 </script>
@@ -105,8 +101,8 @@ const stats = computed(() => [
   <UDashboardPanel>
     <template #header>
       <UDashboardNavbar
-        title="Materiais por Projeto"
-        icon="i-lucide-package"
+        title="Horas Trabalhadas"
+        icon="i-lucide-activity"
       >
         <template #right>
           <UColorModeButton />
@@ -124,7 +120,7 @@ const stats = computed(() => [
             <UInput
               v-model="pesquisa"
               type="text"
-              placeholder="Pesquisar material..."
+              placeholder="Pesquisar responsável..."
               icon="i-lucide-search"
               size="lg"
             />
@@ -138,10 +134,10 @@ const stats = computed(() => [
         >
           <!-- Cards Skeleton -->
           <div
-            class="grid grid-cols-1 gap-4 sm:grid-cols-3"
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2"
           >
             <UCard
-              v-for="i in 3"
+              v-for="i in 2"
               :key="i"
             >
               <div
@@ -171,11 +167,11 @@ const stats = computed(() => [
                 class="flex items-center justify-between"
               >
                 <USkeleton
-                  class="h-5 w-48"
+                  class="h-5 w-32"
                 />
 
                 <USkeleton
-                  class="h-9 w-44"
+                  class="h-9 w-48"
                 />
               </div>
             </template>
@@ -197,7 +193,7 @@ const stats = computed(() => [
         >
           <!-- Cards -->
           <div
-            class="grid grid-cols-1 gap-4 sm:grid-cols-3"
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2"
           >
             <UCard
               v-for="stat in stats"
@@ -243,36 +239,37 @@ const stats = computed(() => [
                   <h3
                     class="font-semibold"
                   >
-                    Materiais Encontrados
+                    Responsáveis Encontrados
                   </h3>
                 </div>
               </template>
 
               <div
-                v-if="materiaisFiltrados.length"
+                v-if="execucoesFiltradas.length"
                 class="space-y-2"
               >
                 <div
-                  v-for="material in materiaisFiltrados.slice(0, 10)"
-                  :key="material.codigo_material"
+                  v-for="(execucao, index) in execucoesFiltradas.slice(0, 10)"
+                  :key="index"
                   class="rounded-lg border border-gray-800 p-3"
                 >
+                  >
                   <div class="font-medium">
-                    {{ material.descricao_material }}
+                    {{ execucao.sk_responsavel }}
+                  </div>
+
+                  <div
+                    class="text-sm text-gray-400"
+                  >
+                    Horas:
+                    {{ execucao.horas_trabalhadas }}
                   </div>
 
                   <div
                     class="text-sm text-gray-400"
                   >
                     Projeto:
-                    {{ material.codigo_projeto }}
-                  </div>
-
-                  <div
-                    class="text-sm text-gray-400"
-                  >
-                    Estoque:
-                    {{ material.quantidade_estoque }}
+                    {{ execucao.sk_projeto }}
                   </div>
                 </div>
               </div>
@@ -281,7 +278,7 @@ const stats = computed(() => [
                 v-else
                 class="text-sm text-gray-400"
               >
-                Nenhum material encontrado.
+                Nenhum responsável encontrado.
               </div>
             </UCard>
           </div>
@@ -303,20 +300,22 @@ const stats = computed(() => [
                   <h3
                     class="font-semibold"
                   >
-                    Distribuição de estoque — top 10
+                    Horas por responsável — top 10
                   </h3>
                 </div>
               </template>
 
-              <MaterialsBarChart
-                v-if="materiaisFiltrados.length"
-                :materiais="materiaisFiltrados"
+              <ProductivityBarChart
+                v-if="execucoesFiltradas.length"
+                :execucoes="execucoesFiltradas"
               />
             </UCard>
 
-            <MaterialsTable
-              v-if="materiaisFiltrados.length"
-              :materiais="materiaisFiltrados"
+            <ProductivityTable
+              v-if="execucoesFiltradas.length"
+              :execucoes="execucoesFiltradas"
+              :projetos="projetos ?? []"
+              :tarefas="tarefas ?? []"
             />
           </div>
         </div>

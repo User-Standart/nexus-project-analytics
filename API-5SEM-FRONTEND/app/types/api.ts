@@ -7,9 +7,13 @@ export interface DimProjeto {
 
 export interface DimTarefa {
   sk_tarefa: string
+  id_tarefa: string
+  codigo_tarefa: string
   titulo: string
   status: string
   estimativa_horas: string
+  data_inicio: string
+  data_fim_prevista: string
 }
 
 export interface FatoExecucao {
