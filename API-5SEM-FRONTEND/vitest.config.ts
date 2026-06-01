@@ -1,16 +1,23 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [vue()],
-  resolve: {
-    alias: {
-      vue: resolve('./node_modules/vue/dist/vue.esm-bundler.js')
-    }
-  },
   test: {
     environment: 'happy-dom',
-    globals: true
+    include: ['app/tests/**/*.spec.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['lcov', 'text', 'html'],
+      reportsDirectory: './coverage',
+      include: ['app/**/*.{ts,vue}'],
+      exclude: [
+        'app/tests/**',
+        'app/**/*.spec.ts',
+        '.nuxt/**',
+        '.output/**',
+        'node_modules/**'
+      ]
+    }
   }
 })

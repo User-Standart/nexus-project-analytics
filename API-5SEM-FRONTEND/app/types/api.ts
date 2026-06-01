@@ -7,9 +7,13 @@ export interface DimProjeto {
 
 export interface DimTarefa {
   sk_tarefa: string
+  id_tarefa: string
+  codigo_tarefa: string
   titulo: string
   status: string
   estimativa_horas: string
+  data_inicio: string
+  data_fim_prevista: string
 }
 
 export interface FatoExecucao {
@@ -64,4 +68,29 @@ export interface FatoExecucao {
 
 export interface TempoGasto {
   total_tempo_gasto: number
+}
+
+// Pedido de compra unificado: Solicitação de Compra (SC) ou Pedido de Compra (PC).
+export interface Purchase {
+  id: number
+  type: 'SC' | 'PC'
+  numero: string
+  status: string
+  data_criacao: string
+  data_previsao_entrega?: string | null
+  duracao_dias?: number | null
+  atrasado?: boolean | null
+}
+
+export interface StatusCount {
+  status: string
+  count: number
+}
+
+export interface PurchaseMetrics {
+  total_purchases: number
+  total_sc: number
+  total_pc: number
+  average_duration_pc: number
+  status_counts: StatusCount[]
 }
