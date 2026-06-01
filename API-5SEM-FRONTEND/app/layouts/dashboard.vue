@@ -1,52 +1,43 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-const items: NavigationMenuItem[][] = [
-  [
-    {
-      label: 'Home',
-      icon: 'i-lucide-house',
-      to: '/'
-    },
-    {
-      label: 'Investimentos',
-      icon: 'i-lucide-trending-up',
-      to: '/investimento'
-    },
-    {
-      label: 'Materiais',
-      icon: 'i-lucide-package',
-      to: '/materiais'
-    },
-    {
-      label: 'Horas Trabalhadas',
-      icon: 'i-lucide-activity',
-      to: '/horastrabalhadas'
-    },
-    {
-      label: 'Pedidos de Compra',
-      icon: 'i-lucide-shopping-cart',
-      to: '/pedidos'
-    }
-    // {
-    //   label: 'Customers',
-    //   icon: 'i-lucide-users',
-    //   to: '/customers'
-    // },
-    // {
-    //   label: 'Settings',
-    //   icon: 'i-lucide-settings',
-    //   to: '/settings'
-    // }
-  ]
-  // [
-  //   {
-  //     label: 'Help',
-  //     icon: 'i-lucide-circle-help',
-  //     to: '/help'
-  //   }
-  // ]
+const { user, role, logout } = useAuth()
+
+const pedidosItem: NavigationMenuItem = {
+  label: 'Pedidos de Compra',
+  icon: 'i-lucide-shopping-cart',
+  to: '/pedidos'
+}
+
+const dashboardItems: NavigationMenuItem[] = [
+  {
+    label: 'Home',
+    icon: 'i-lucide-house',
+    to: '/'
+  },
+  {
+    label: 'Investimentos',
+    icon: 'i-lucide-trending-up',
+    to: '/investimento'
+  },
+  {
+    label: 'Materiais',
+    icon: 'i-lucide-package',
+    to: '/materiais'
+  },
+  {
+    label: 'Horas Trabalhadas',
+    icon: 'i-lucide-activity',
+    to: '/horastrabalhadas'
+  },
+  pedidosItem
 ]
+
+// Perfil "compras" enxerga apenas a tela de Pedidos; admin vê tudo.
+const items = computed<NavigationMenuItem[][]>(() =>
+  role.value === 'compras' ? [[pedidosItem]] : [dashboardItems]
+)
 </script>
 
 <template>
@@ -84,6 +75,33 @@ const items: NavigationMenuItem[][] = [
           :items="items"
           class="px-2"
         />
+      </template>
+
+      <template #footer="{ collapsed }">
+        <div
+          class="flex w-full items-center gap-2"
+          :class="collapsed ? 'justify-center' : 'justify-between'"
+        >
+          <div
+            v-if="!collapsed && user"
+            class="min-w-0"
+          >
+            <p class="truncate text-sm font-medium">
+              {{ user.nome }}
+            </p>
+            <p class="truncate text-xs text-muted capitalize">
+              {{ user.role }}
+            </p>
+          </div>
+          <UButton
+            icon="i-lucide-log-out"
+            color="neutral"
+            variant="ghost"
+            :label="collapsed ? undefined : 'Sair'"
+            aria-label="Sair"
+            @click="logout"
+          />
+        </div>
       </template>
     </UDashboardSidebar>
 
