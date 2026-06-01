@@ -69,3 +69,28 @@ export interface FatoExecucao {
 export interface TempoGasto {
   total_tempo_gasto: number
 }
+
+// Pedido de compra unificado: Solicitação de Compra (SC) ou Pedido de Compra (PC).
+export interface Purchase {
+  id: number
+  type: 'SC' | 'PC'
+  numero: string
+  status: string
+  data_criacao: string
+  data_previsao_entrega?: string | null
+  duracao_dias?: number | null
+  atrasado?: boolean | null
+}
+
+export interface StatusCount {
+  status: string
+  count: number
+}
+
+export interface PurchaseMetrics {
+  total_purchases: number
+  total_sc: number
+  total_pc: number
+  average_duration_pc: number
+  status_counts: StatusCount[]
+}

@@ -22,6 +22,11 @@ const items: NavigationMenuItem[][] = [
       label: 'Horas Trabalhadas',
       icon: 'i-lucide-activity',
       to: '/horastrabalhadas'
+    },
+    {
+      label: 'Pedidos de Compra',
+      icon: 'i-lucide-shopping-cart',
+      to: '/pedidos'
     }
     // {
     //   label: 'Customers',
