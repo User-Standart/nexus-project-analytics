@@ -1,73 +1,311 @@
+import glob
 import polars as pl
+
+# Colunas com constraint UNIQUE no banco que precisam de prefixo de versão
+# para evitar conflito quando o mesmo código aparece em v1 e v2
+_CODIGO_COLS: dict[str, list[str]] = {
+    "programas.csv":           ["codigo_programa"],
+    "projetos.csv":            ["codigo_projeto"],
+    "tarefas_projeto.csv":     ["codigo_tarefa"],
+    "materiais.csv":           ["codigo_material"],
+    "fornecedores.csv":        ["codigo_fornecedor"],
+    "solicitacoes_compra.csv": ["numero_solicitacao"],
+    "pedidos_compra.csv":      ["numero_pedido"],
+}
+
+# Mapeamento: nome_arquivo -> coluna PK e colunas FK que referenciam outras tabelas
+_SCHEMA: dict[str, dict] = {
+    "programas.csv": {
+        "pk": "id",
+        "fks": {},
+    },
+    "projetos.csv": {
+        "pk": "id",
+        "fks": {"programa_id": "programas.csv"},
+    },
+    "tarefas_projeto.csv": {
+        "pk": "id",
+        "fks": {"projeto_id": "projetos.csv"},
+    },
+    "tempo_tarefas.csv": {
+        "pk": "id",
+        "fks": {"tarefa_id": "tarefas_projeto.csv"},
+    },
+    "materiais.csv": {
+        "pk": "id",
+        "fks": {},
+    },
+    "fornecedores.csv": {
+        "pk": "id",
+        "fks": {},
+    },
+    "solicitacoes_compra.csv": {
+        "pk": "id",
+        "fks": {
+            "projeto_id": "projetos.csv",
+            "material_id": "materiais.csv",
+        },
+    },
+    "pedidos_compra.csv": {
+        "pk": "id",
+        "fks": {
+            "solicitacao_id": "solicitacoes_compra.csv",
+            "fornecedor_id": "fornecedores.csv",
+        },
+    },
+    "compras_projeto.csv": {
+        "pk": "id",
+        "fks": {
+            "pedido_compra_id": "pedidos_compra.csv",
+            "projeto_id": "projetos.csv",
+        },
+    },
+    "empenho_materiais.csv": {
+        "pk": "id",
+        "fks": {
+            "projeto_id": "projetos.csv",
+            "material_id": "materiais.csv",
+        },
+    },
+    "estoque_materiais_projeto.csv": {
+        "pk": "id",
+        "fks": {
+            "projeto_id": "projetos.csv",
+            "material_id": "materiais.csv",
+        },
+    },
+}
+
+
+def _calcular_offsets(pasta: str) -> dict[str, int]:
+    """
+    Para cada tabela, decide se a v2 precisa de offset nos IDs.
+
+    Há dois cenários possíveis quando um ID aparece em ambas as versões:
+
+      1. Conteúdo IDÊNTICO → a v2 simplesmente já contém os registros
+         da v1 (reutilização intencional). Basta fazer unique() depois
+         de concat; offset = 0.
+
+      2. Conteúdo DIFERENTE → o mesmo ID foi reutilizado para um
+         registro completamente novo (bug na origem). Conforme
+         orientação da PO: nunca substituir, sempre adicionar com
+         novo ID. Nesse caso offset = max(id_v1), deslocando TODOS
+         os IDs da v2 para evitar qualquer colisão.
+    """
+    offsets: dict[str, int] = {}
+
+    for nome_arquivo, info in _SCHEMA.items():
+        v1_paths = glob.glob(f"{pasta}/v1/{nome_arquivo}")
+        v2_paths = glob.glob(f"{pasta}/v2/{nome_arquivo}")
+
+        if not v1_paths or not v2_paths:
+            offsets[nome_arquivo] = 0
+            continue
+
+        df_v1 = pl.read_csv(v1_paths[0])
+        df_v2 = pl.read_csv(v2_paths[0])
+
+        ids_comuns = set(df_v1[info["pk"]].to_list()) & set(df_v2[info["pk"]].to_list())
+
+        if not ids_comuns:
+            # Sem sobreposição alguma: sem necessidade de offset
+            offsets[nome_arquivo] = 0
+            continue
+
+        # Compara o conteúdo dos registros com IDs em comum
+        v1_comuns = df_v1.filter(pl.col(info["pk"]).is_in(list(ids_comuns))).sort(info["pk"])
+        v2_comuns = df_v2.filter(pl.col(info["pk"]).is_in(list(ids_comuns))).sort(info["pk"])
+
+        ha_conflito = any(
+            r1 != r2
+            for r1, r2 in zip(v1_comuns.to_dicts(), v2_comuns.to_dicts())
+        )
+
+        if ha_conflito:
+            # IDs reutilizados com dados diferentes → desloca v2 inteira
+            offsets[nome_arquivo] = int(df_v1[info["pk"]].max())
+        else:
+            # IDs em comum com dados idênticos → v2 já inclui v1, sem conflito
+            offsets[nome_arquivo] = 0
+
+    return offsets
+
+
+def _aplicar_prefixo(df: pl.DataFrame, nome_arquivo: str, versao: str) -> pl.DataFrame:
+    """
+    Prefixa as colunas de código com 'v1-' ou 'v2-' para evitar conflito
+    com a constraint UNIQUE do banco OLTP, que não admite o mesmo código
+    em registros distintos mesmo que venham de versões diferentes.
+    """
+    cols = _CODIGO_COLS.get(nome_arquivo, [])
+    for col in cols:
+        if col in df.columns:
+            df = df.with_columns(
+                (pl.lit(f"{versao}-") + pl.col(col)).alias(col)
+            )
+    return df
+
+
+def _aplicar_offset(df: pl.DataFrame, nome_arquivo: str, offset: int,
+                    offsets: dict[str, int]) -> pl.DataFrame:
+    """
+    Aplica offset na PK do DataFrame e em cada FK cujo arquivo referenciado
+    também possui offset > 0, preservando a integridade referencial interna da v2.
+    """
+    if offset == 0:
+        return df
+
+    info = _SCHEMA[nome_arquivo]
+    pk = info["pk"]
+
+    df = df.with_columns(pl.col(pk) + offset)
+
+    for fk_col, ref_arquivo in info["fks"].items():
+        ref_offset = offsets.get(ref_arquivo, 0)
+        if ref_offset > 0 and fk_col in df.columns:
+            df = df.with_columns(pl.col(fk_col) + ref_offset)
+
+    return df
+
+
+def ler_acumulado(pasta: str, nome_arquivo: str,
+                  offsets: dict[str, int]) -> pl.DataFrame:
+    """
+    Lê v1 e v2 de forma acumulativa aplicando a estratégia correta por tabela:
+
+    - offset = 0 (ex: projetos, programas): v2 já contém v1 com dados
+      idênticos. Faz concat e deduplica por ID (unique keep='first'),
+      resultando apenas nos registros únicos sem duplicação.
+
+    - offset > 0 (ex: tarefas, materiais...): IDs foram reutilizados com
+      dados diferentes. Desloca todos os IDs da v2 antes do concat,
+      garantindo que cada registro de origem seja preservado como novo.
+
+    Em ambos os casos, colunas de código com UNIQUE no banco recebem
+    prefixo de versão ('v1-' / 'v2-') para evitar violação de constraint.
+    """
+    v1_paths = glob.glob(f"{pasta}/v1/{nome_arquivo}")
+    v2_paths = glob.glob(f"{pasta}/v2/{nome_arquivo}")
+
+    if not v1_paths and not v2_paths:
+        raise FileNotFoundError(
+            f"Nenhum arquivo '{nome_arquivo}' encontrado em '{pasta}/v1' ou '{pasta}/v2'."
+        )
+
+    dfs = []
+
+    for path in sorted(v1_paths):
+        df = pl.read_csv(path, try_parse_dates=True)
+        df = _aplicar_prefixo(df, nome_arquivo, "v1")
+        dfs.append(df)
+
+    offset = offsets.get(nome_arquivo, 0)
+    for path in sorted(v2_paths):
+        df = pl.read_csv(path, try_parse_dates=True)
+        df = _aplicar_prefixo(df, nome_arquivo, "v2")
+        df = _aplicar_offset(df, nome_arquivo, offset, offsets)
+        dfs.append(df)
+
+    df_combined = pl.concat(dfs)
+
+    # Se não há offset, a v2 já continha v1: remove duplicatas por PK
+    if offset == 0:
+        pk = _SCHEMA[nome_arquivo]["pk"]
+        df_combined = df_combined.unique(subset=[pk], keep="first")
+
+    # Garante conversão de colunas de data que ainda sejam String
+    for col_name in df_combined.columns:
+        if "data" in col_name.lower() and df_combined[col_name].dtype == pl.String:
+            df_combined = df_combined.with_columns(
+                pl.col(col_name).str.to_date(strict=False)
+            )
+
+    return df_combined
 
 
 def extrair_fontes(pasta: str = "data") -> dict[str, pl.DataFrame]:
     """
-    Lê os CSVs OLTP e retorna DataFrames brutos com colunas renomeadas
-    para o padrão id_<entidade> e <entidade>_id → id_<entidade>.
+    Lê todas as tabelas de forma acumulativa (v1 + v2).
+
+    - Registros com IDs idênticos e conteúdo igual são deduplicados (sem duplicação).
+    - Registros com IDs reutilizados mas conteúdo diferente recebem novo ID
+      e são SEMPRE adicionados, nunca substituídos.
     """
+    offsets = _calcular_offsets(pasta)
+
     programas = (
-        pl.read_csv(f"{pasta}/programas.csv")
+        ler_acumulado(pasta, "programas.csv", offsets)
         .rename({"id": "id_programa"})
     )
+
     projetos = (
-        pl.read_csv(f"{pasta}/projetos.csv")
+        ler_acumulado(pasta, "projetos.csv", offsets)
         .rename({"id": "id_projeto", "programa_id": "id_programa"})
     )
+
     tarefas = (
-        pl.read_csv(f"{pasta}/tarefas_projeto.csv")
+        ler_acumulado(pasta, "tarefas_projeto.csv", offsets)
         .rename({
             "id": "id_tarefa",
             "projeto_id": "id_projeto",
             "data_fim_prevista": "data_fim_prev",
         })
     )
+
     tempo_tarefas = (
-        pl.read_csv(f"{pasta}/tempo_tarefas.csv")
+        ler_acumulado(pasta, "tempo_tarefas.csv", offsets)
         .rename({"id": "id_tempo", "tarefa_id": "id_tarefa"})
     )
+
     materiais = (
-        pl.read_csv(f"{pasta}/materiais.csv")
+        ler_acumulado(pasta, "materiais.csv", offsets)
         .rename({"id": "id_material"})
     )
+
     fornecedores = (
-        pl.read_csv(f"{pasta}/fornecedores.csv")
+        ler_acumulado(pasta, "fornecedores.csv", offsets)
         .rename({"id": "id_fornecedor"})
     )
+
     solicitacoes = (
-        pl.read_csv(f"{pasta}/solicitacoes_compra.csv")
+        ler_acumulado(pasta, "solicitacoes_compra.csv", offsets)
         .rename({
             "id": "id_solicitacao",
             "projeto_id": "id_projeto",
             "material_id": "id_material",
         })
     )
+
     pedidos = (
-        pl.read_csv(f"{pasta}/pedidos_compra.csv")
+        ler_acumulado(pasta, "pedidos_compra.csv", offsets)
         .rename({
             "id": "id_pedido",
             "solicitacao_id": "id_solicitacao",
             "fornecedor_id": "id_fornecedor",
         })
     )
+
     compras_projeto = (
-        pl.read_csv(f"{pasta}/compras_projeto.csv")
+        ler_acumulado(pasta, "compras_projeto.csv", offsets)
         .rename({
             "id": "id_compra_projeto",
             "pedido_compra_id": "id_pedido",
             "projeto_id": "id_projeto",
         })
     )
+
     empenho = (
-        pl.read_csv(f"{pasta}/empenho_materiais.csv")
+        ler_acumulado(pasta, "empenho_materiais.csv", offsets)
         .rename({
             "id": "id_empenho",
             "projeto_id": "id_projeto",
             "material_id": "id_material",
         })
     )
+
     estoque = (
-        pl.read_csv(f"{pasta}/estoque_materiais_projeto.csv")
+        ler_acumulado(pasta, "estoque_materiais_projeto.csv", offsets)
         .rename({
             "id": "id_estoque",
             "projeto_id": "id_projeto",
