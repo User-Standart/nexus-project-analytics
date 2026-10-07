@@ -1,0 +1,23 @@
+[33me2ab87f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/31-frontend-quick-search-field[m[33m, [m[1;31morigin/feat/31-frontend-quick-search-field[m[33m)[m HEAD@{0}: rebase (finish): returning to refs/heads/feat/31-frontend-quick-search-field
+[33me2ab87f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/31-frontend-quick-search-field[m[33m, [m[1;31morigin/feat/31-frontend-quick-search-field[m[33m)[m HEAD@{1}: rebase (pick): feat: add task search to dashboard
+[33mb75fc34[m HEAD@{2}: rebase (reword): feat: add task search to dashboard
+[33mf47af20[m HEAD@{3}: rebase (reword): feat: adiciona pesquisa de tarefas na dashboard
+[33mc3d0c97[m HEAD@{4}: rebase (pick): feat: add detailed view for projects, materials, and productivity with slideover components (#9)
+[33m0e6f894[m HEAD@{5}: rebase (pick): feat: implement filters component (#8)
+[33m7e437b7[m HEAD@{6}: rebase (pick): feat: add productivity page with chart and table (#7)
+[33m59bcc8d[m HEAD@{7}: rebase (pick): feat: add materials by project page with chart and table (#6)
+[33m31681d0[m HEAD@{8}: rebase (start): checkout HEAD~4
+[33m57345ec[m HEAD@{9}: rebase (finish): returning to refs/heads/feat/31-frontend-quick-search-field
+[33m57345ec[m HEAD@{10}: rebase (squash): feat: add task search to dashboard
+[33m70948b2[m HEAD@{11}: rebase (squash): # This is a combination of 2 commits.
+[33me4685a9[m HEAD@{12}: rebase (start): checkout HEAD~3
+[33m3d7321f[m HEAD@{13}: rebase (abort): returning to refs/heads/feat/31-frontend-quick-search-field
+[33m3d7321f[m HEAD@{14}: rebase (abort): returning to refs/heads/feat/31-frontend-quick-search-field
+[33m3d7321f[m HEAD@{15}: commit: feat: adiciona pesquisa de tarefas na dashboard
+[33m70abc97[m HEAD@{16}: commit: feat: adiciona pesquisa de tarefas na dashboard
+[33me4685a9[m HEAD@{17}: commit: feat: adiciona pesquisa de tarefas na dashboard
+[33mc1785e4[m HEAD@{18}: commit: feat: adiciona pesquisa de tarefas na dashboard
+[33mf597318[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/Sprint-3[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{19}: checkout: moving from main to feat/31-frontend-quick-search-field
+[33mf597318[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/Sprint-3[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{20}: checkout: moving from ae135eb2a12fcd7908d4767fe46c826967198fb6 to main
+[33mae135eb[m HEAD@{21}: checkout: moving from main to ae135eb2a12fcd7908d4767fe46c826967198fb6
+[33mf597318[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/Sprint-3[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{22}: clone: from https://github.com/User-Standart/API-5SEM-FRONTEND.git
