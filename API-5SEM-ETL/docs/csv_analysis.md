@@ -1,6 +1,6 @@
 # Análise dos CSVs
 
-> **Responsável:** User-Standart Team
+> **Owner:** Nexus Team
 
 ---
 

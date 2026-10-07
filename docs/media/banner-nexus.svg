@@ -26,7 +26,7 @@
 
   <!-- RIGHT SIDE: Text from image -->
   <g transform="translate(690, 0)">
-    <text x="210" y="72" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#1a1a1a" text-anchor="middle">User-Standart</text>
+    <text x="210" y="72" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#1a1a1a" text-anchor="middle">Nexus</text>
     <text x="210" y="100" font-family="Georgia, serif" font-size="16" fill="#333333" text-anchor="middle">Projeto Nexus</text>
     <text x="210" y="122" font-family="Georgia, serif" font-size="16" fill="#333333" text-anchor="middle">FATEC Prof&#xBA; Jessen Vidal</text>
   </g>

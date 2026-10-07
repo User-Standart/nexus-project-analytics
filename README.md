@@ -1,9 +1,9 @@
 <img width="1300" height="240" src="./docs/media/banner-nexus.svg">
 
 <br />
-<span id="User-Standart"></span>
+<span id="nexus"></span>
 
-# <p align="center">User-Standart</p>
+# <p align="center">Nexus</p>
 
 <p align="center">
     <a href="#challenge">Challenge</a>  |  
@@ -21,7 +21,7 @@
 </p>
 
 > Project Status: **Completed ✅** <br /><br />
-> Documentation Folder: [Link](https://github.com/User-Standart/API-5SEM/tree/main/docs) 📄 <br /><br />
+> Documentation Folder: [Link](docs) 📄 <br /><br />
 
 ---
 
@@ -52,7 +52,7 @@ The system will enable:
 
 The goal is to transform fragmented, scattered data into **structured and accessible intelligence**, enabling more efficient and informed management of strategic programs and projects.
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -144,7 +144,7 @@ The goal is to transform fragmented, scattered data into **structured and access
 - API documentation completed
 - Sprint delivery presentation recorded
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -154,11 +154,11 @@ The goal is to transform fragmented, scattered data into **structured and access
 
 | Sprint | Period | History |
 |--------|--------|---------|
-| Sprint 1 | 03/16 – 04/05 | [Sprint 1 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
-| Sprint 2 | 04/13 – 05/03 | [Sprint 2 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
-| Sprint 3 | 05/11 – 05/31 | [Sprint 3 Docs](https://github.com/User-Standart/API-5SEM/tree/main/docs) |
+| Sprint 1 | 03/16 – 04/05 | [Sprint 1 Docs](docs) |
+| Sprint 2 | 04/13 – 05/03 | [Sprint 2 Docs](docs) |
+| Sprint 3 | 05/11 – 05/31 | [Sprint 3 Docs](docs) |
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -176,7 +176,7 @@ The goal is to transform fragmented, scattered data into **structured and access
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
 </p>
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -189,38 +189,16 @@ The goal is to transform fragmented, scattered data into **structured and access
 - [Git](https://git-scm.com/)
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 
-### 1. Clone the repository with submodules
+### 1. Clone the repository
 
 ```bash
-git clone --recurse-submodules https://github.com/User-Standart/API-5SEM.git
+git clone https://github.com/User-Standart/API-5SEM.git
 cd API-5SEM
 ```
 
-> **Already cloned without `--recurse-submodules`?** Run the command below to initialize the submodules:
->
-> ```bash
-> git submodule update --init --recursive
-> ```
+The backend, frontend and ETL live in the `API-5SEM-BACKEND/`, `API-5SEM-FRONTEND/` and `API-5SEM-ETL/` folders of this repository.
 
-### 2. Configure the submodules to track their remote branches
-
-By default, submodules are checked out in a detached HEAD state. To work on them as actual repositories (create branches, commit, push, etc.), run the following inside each submodule:
-
-```bash
-cd API-5SEM-BACKEND
-git checkout main
-cd ..
-
-cd API-5SEM-ETL
-git checkout main
-cd ..
-
-cd API-5SEM-FRONTEND
-git checkout main
-cd ..
-```
-
-### 3. Set up environment variables
+### 2. Set up environment variables
 
 Copy the example file and adjust values if needed:
 
@@ -244,7 +222,7 @@ DATABASE_URL=postgres://appdb:appdb@db:5432/appdb?sslmode=disable
 BACKEND_PATH=http://backend:8080
 ```
 
-### 4. Start the application
+### 3. Start the application
 
 ```bash
 docker compose up --build
@@ -259,7 +237,7 @@ This will start all services:
 | **Database** | localhost:5433 | PostgreSQL 17 (mapped to port 5433 to avoid conflicts) |
 | **ETL** | — | Python pipeline (runs and exits) |
 
-### 5. Stop the application
+### 4. Stop the application
 
 ```bash
 docker compose down
@@ -271,15 +249,7 @@ To also remove the database volume (reset all data):
 docker compose down -v
 ```
 
-### Pulling submodule updates
-
-To pull the latest changes from all submodules:
-
-```bash
-git submodule update --remote --merge
-```
-
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -289,7 +259,7 @@ git submodule update --remote --merge
 
 🚧 Under construction
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -297,9 +267,9 @@ git submodule update --remote --merge
 
 # 🖥️ Database Modeling
 
-[Relational Model](https://github.com/User-Standart/API-5SEM-ETL/blob/main/docs/modelo_relacional.png)
+![Relational Model](API-5SEM-ETL/docs/modelo_relacional.png)
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -321,7 +291,7 @@ git submodule update --remote --merge
 
 </div>
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)
 
 ---
 
@@ -393,4 +363,4 @@ Always prefer descriptive, actionable messages such as:
 
 </details>
 
-→ [Back to top](#User-Standart)
+→ [Back to top](#nexus)

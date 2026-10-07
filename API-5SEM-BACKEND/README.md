@@ -1,3 +1,3 @@
 # API-5SEM-BACKEND
 
-Backend do projeto **Nexus** desenvolvido pela equipe **User-Standart** para o API do 5º semestre da FATEC São José dos Campos.
+Backend of the **Nexus** project, developed for the 5th-semester Integrated Project (API) at FATEC São José dos Campos.
