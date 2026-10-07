@@ -192,8 +192,8 @@ The goal is to transform fragmented, scattered data into **structured and access
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/User-Standart/API-5SEM.git
-cd API-5SEM
+git clone https://github.com/User-Standart/nexus-project-analytics.git
+cd nexus-project-analytics
 ```
 
 The backend, frontend and ETL live in the `API-5SEM-BACKEND/`, `API-5SEM-FRONTEND/` and `API-5SEM-ETL/` folders of this repository.

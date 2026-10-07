@@ -33,10 +33,10 @@ During installation, check the **"Add Python to PATH"** option.
 
 1. Clone the repository and open the ETL folder
 ```
-git clone https://github.com/User-Standart/API-5SEM.git
+git clone https://github.com/User-Standart/nexus-project-analytics.git
 ```
 ```
-cd API-5SEM/API-5SEM-ETL
+cd nexus-project-analytics/API-5SEM-ETL
 ```
 
 2. Install the dependencies
