@@ -2,9 +2,11 @@ name: Sonar Check Backend
 
 on:
   push:
-    branches: [main, Sprint-3]
+    branches: [main]
+    paths: ['API-5SEM-BACKEND/**', '.github/workflows/backend-sonar.yml']
   pull_request:
-    branches: [main, Sprint-3]
+    branches: [main]
+    paths: ['API-5SEM-BACKEND/**', '.github/workflows/backend-sonar.yml']
 
 concurrency:
   group: sonar-backend-${{ github.ref }}
@@ -14,6 +16,11 @@ jobs:
   sonar:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    defaults:
+      run:
+        working-directory: API-5SEM-BACKEND
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -25,17 +32,19 @@ jobs:
         with:
           go-version: '1.25'
           cache: true
+          cache-dependency-path: API-5SEM-BACKEND/go.sum
 
       - name: Download dependencies
         run: go mod download
 
       - name: Run tests with coverage
-        run: |
-          go test -v -coverprofile=coverage.out ./...
+        run: go test -v -coverprofile=coverage.out ./...
 
+      # Skipped until the SONAR_TOKEN repository secret is configured
       - name: SonarCloud Scan
+        if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarqube-scan-action@v4.2.1
+        with:
+          projectBaseDir: API-5SEM-BACKEND
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          

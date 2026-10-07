@@ -1,38 +1,51 @@
-name: Sonar Check
+name: Sonar Check Frontend
 
 on:
   push:
-    branches: [main, Sprint-3]
+    branches: [main]
+    paths: ['API-5SEM-FRONTEND/**', '.github/workflows/frontend-sonar.yml']
   pull_request:
-    branches: [main, Sprint-3]
+    branches: [main]
+    paths: ['API-5SEM-FRONTEND/**', '.github/workflows/frontend-sonar.yml']
 
 concurrency:
-  group: sonar-${{ github.ref }}
+  group: sonar-frontend-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   sonar:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    defaults:
+      run:
+        working-directory: API-5SEM-FRONTEND
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
       - name: Install pnpm
         uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        with:
+          package_json_file: API-5SEM-FRONTEND/package.json
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: API-5SEM-FRONTEND/.nvmrc
           cache: 'pnpm'
+          cache-dependency-path: API-5SEM-FRONTEND/pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Generate Nuxt types
         run: pnpm postinstall
       - name: Run tests with coverage
         run: pnpm vitest run --coverage
+      # Skipped until the SONAR_TOKEN repository secret is configured
       - name: SonarQube Scan
+        if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarqube-scan-action@v4.2.1
+        with:
+          projectBaseDir: API-5SEM-FRONTEND
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

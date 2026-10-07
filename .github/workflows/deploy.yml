@@ -1,31 +1,31 @@
 name: Deploy
 
+# Deploys the Dockerized stack to a self-hosted Linux VM.
+# Manual trigger only: register a self-hosted runner on the VM and clone this
+# repository to ~/nexus-project-analytics before running it.
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Atualizar submodules
+      - name: Update repository
         run: |
-          cd ~/API-5SEM
+          cd ~/nexus-project-analytics
           git pull origin main
-          git submodule update --remote --merge
 
-      - name: Parar containers
+      - name: Stop containers
         run: |
-          cd ~/API-5SEM
+          cd ~/nexus-project-analytics
           sudo docker compose down
 
-      - name: Rebuildar e subir
+      - name: Rebuild and start
         run: |
-          cd ~/API-5SEM
+          cd ~/nexus-project-analytics
           sudo docker compose up -d --build
 
-      - name: Verificar status
+      - name: Check status
         run: |
-          cd ~/API-5SEM
+          cd ~/nexus-project-analytics
           sudo docker compose ps

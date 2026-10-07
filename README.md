@@ -282,7 +282,7 @@ docker compose down -v
 | Role | Name | LinkedIn & GitHub |
 |------|------|-------------------|
 | Product Owner | Beatriz Sthefanny | [LinkedIn](https://www.linkedin.com/in/beatriz-santos-0b6773220/) · [GitHub](https://github.com/BeatrizSantos00) |
-| Scrum Master | Caio Osorio | [LinkedIn](https://www.linkedin.com/in/caio-o-a67224200/) · [GitHub](https://github.com/User-Business) |
+| Scrum Master | Caio Osorio | [LinkedIn](https://www.linkedin.com/in/caiovosorio/) · [GitHub](https://github.com/User-Standart) |
 | Developer | Tiago Bernardo | [LinkedIn](https://www.linkedin.com/in/tiagobernardosantos/) · [GitHub](https://github.com/TiagoBernardoSantos) |
 | Developer | Victor Ryan | [LinkedIn](https://www.linkedin.com/in/victor-ryan-51738b261) · [GitHub](https://github.com/yzvictorr) |
 | Developer | Ali Mohamed Khodr | [LinkedIn](https://www.linkedin.com/in/alimohamedkhodr/) · [GitHub](https://github.com/alimkhodr) |
